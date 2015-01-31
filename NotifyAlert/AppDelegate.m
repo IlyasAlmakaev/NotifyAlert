@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "NotifyTableViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -17,7 +19,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (locationNotification) {
+        application.applicationIconBadgeNumber = 0;
+    }
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    NotifyTableViewController *notifyTableViewC = [[NotifyTableViewController alloc] init];
+    NotifyViewController *notifyView = [[NotifyViewController alloc] init];
+    
+    notifyTableViewC.notifyViewC = notifyView;
+    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
+    self.window.rootViewController = navigationC;
+    [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateActive) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Напоминание:"
+                                                        message:notification.alertBody
+                                                       delegate:self cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    // Request to reload table view data
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
+    
+    // Set icon badge number to zero
+    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

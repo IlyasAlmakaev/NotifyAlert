@@ -10,11 +10,15 @@
 		11A2C36A1A7AFF7B00061625 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3691A7AFF7B00061625 /* main.m */; };
 		11A2C36D1A7AFF7B00061625 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C36C1A7AFF7B00061625 /* AppDelegate.m */; };
 		11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */; };
-		11A2C3731A7AFF7B00061625 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3721A7AFF7B00061625 /* ViewController.m */; };
-		11A2C3761A7AFF7B00061625 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3741A7AFF7B00061625 /* Main.storyboard */; };
 		11A2C3781A7AFF7B00061625 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3771A7AFF7B00061625 /* Images.xcassets */; };
-		11A2C37B1A7AFF7B00061625 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3791A7AFF7B00061625 /* LaunchScreen.xib */; };
 		11A2C3871A7AFF7B00061625 /* NotifyAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3861A7AFF7B00061625 /* NotifyAlertTests.m */; };
+		11A2C3931A7AFFD600061625 /* NotifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3911A7AFFD600061625 /* NotifyViewController.m */; };
+		11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3921A7AFFD600061625 /* NotifyViewController.xib */; };
+		11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3961A7B000B00061625 /* NotifyTableViewController.m */; };
+		11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */; };
+		11A2C39C1A7B017C00061625 /* NotifyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C39B1A7B017C00061625 /* NotifyData.m */; };
+		11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */; };
+		11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D92A131A7BE408006080CB /* NotifyTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,14 +38,21 @@
 		11A2C36B1A7AFF7B00061625 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		11A2C36C1A7AFF7B00061625 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		11A2C36F1A7AFF7B00061625 /* NotifyAlert.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotifyAlert.xcdatamodel; sourceTree = "<group>"; };
-		11A2C3711A7AFF7B00061625 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		11A2C3721A7AFF7B00061625 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		11A2C3751A7AFF7B00061625 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		11A2C3771A7AFF7B00061625 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		11A2C37A1A7AFF7B00061625 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		11A2C3801A7AFF7B00061625 /* NotifyAlertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotifyAlertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A2C3851A7AFF7B00061625 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A2C3861A7AFF7B00061625 /* NotifyAlertTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotifyAlertTests.m; sourceTree = "<group>"; };
+		11A2C3901A7AFFD600061625 /* NotifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyViewController.h; sourceTree = "<group>"; };
+		11A2C3911A7AFFD600061625 /* NotifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyViewController.m; sourceTree = "<group>"; };
+		11A2C3921A7AFFD600061625 /* NotifyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyViewController.xib; sourceTree = "<group>"; };
+		11A2C3951A7B000B00061625 /* NotifyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyTableViewController.h; sourceTree = "<group>"; };
+		11A2C3961A7B000B00061625 /* NotifyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyTableViewController.m; sourceTree = "<group>"; };
+		11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewController.xib; sourceTree = "<group>"; };
+		11A2C39A1A7B017C00061625 /* NotifyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyData.h; sourceTree = "<group>"; };
+		11A2C39B1A7B017C00061625 /* NotifyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyData.m; sourceTree = "<group>"; };
+		11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewCell.xib; sourceTree = "<group>"; };
+		11D92A121A7BE408006080CB /* NotifyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyTableViewCell.h; sourceTree = "<group>"; };
+		11D92A131A7BE408006080CB /* NotifyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,13 +96,20 @@
 			children = (
 				11A2C36B1A7AFF7B00061625 /* AppDelegate.h */,
 				11A2C36C1A7AFF7B00061625 /* AppDelegate.m */,
-				11A2C3711A7AFF7B00061625 /* ViewController.h */,
-				11A2C3721A7AFF7B00061625 /* ViewController.m */,
-				11A2C3741A7AFF7B00061625 /* Main.storyboard */,
 				11A2C3771A7AFF7B00061625 /* Images.xcassets */,
-				11A2C3791A7AFF7B00061625 /* LaunchScreen.xib */,
 				11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */,
 				11A2C3671A7AFF7B00061625 /* Supporting Files */,
+				11A2C3901A7AFFD600061625 /* NotifyViewController.h */,
+				11A2C3911A7AFFD600061625 /* NotifyViewController.m */,
+				11A2C3921A7AFFD600061625 /* NotifyViewController.xib */,
+				11A2C3951A7B000B00061625 /* NotifyTableViewController.h */,
+				11A2C3961A7B000B00061625 /* NotifyTableViewController.m */,
+				11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */,
+				11A2C39A1A7B017C00061625 /* NotifyData.h */,
+				11A2C39B1A7B017C00061625 /* NotifyData.m */,
+				11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */,
+				11D92A121A7BE408006080CB /* NotifyTableViewCell.h */,
+				11D92A131A7BE408006080CB /* NotifyTableViewCell.m */,
 			);
 			path = NotifyAlert;
 			sourceTree = "<group>";
@@ -202,9 +220,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11A2C3761A7AFF7B00061625 /* Main.storyboard in Resources */,
-				11A2C37B1A7AFF7B00061625 /* LaunchScreen.xib in Resources */,
+				11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */,
+				11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */,
 				11A2C3781A7AFF7B00061625 /* Images.xcassets in Resources */,
+				11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +241,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11A2C39C1A7B017C00061625 /* NotifyData.m in Sources */,
 				11A2C36D1A7AFF7B00061625 /* AppDelegate.m in Sources */,
+				11A2C3931A7AFFD600061625 /* NotifyViewController.m in Sources */,
+				11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */,
+				11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */,
 				11A2C36A1A7AFF7B00061625 /* main.m in Sources */,
-				11A2C3731A7AFF7B00061625 /* ViewController.m in Sources */,
 				11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,25 +268,6 @@
 			targetProxy = 11A2C3811A7AFF7B00061625 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		11A2C3741A7AFF7B00061625 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				11A2C3751A7AFF7B00061625 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		11A2C3791A7AFF7B00061625 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				11A2C37A1A7AFF7B00061625 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		11A2C3881A7AFF7B00061625 /* Debug */ = {
@@ -348,6 +351,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NotifyAlert/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -358,6 +362,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NotifyAlert/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -416,6 +421,7 @@
 				11A2C38C1A7AFF7B00061625 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		11A2C38D1A7AFF7B00061625 /* Build configuration list for PBXNativeTarget "NotifyAlertTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +430,7 @@
 				11A2C38F1A7AFF7B00061625 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
