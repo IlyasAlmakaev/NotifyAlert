@@ -8,6 +8,7 @@
 
 #import "NotifyViewController.h"
 #import "NotifyData.h"
+#import "AGToastView.h"
 
 @interface NotifyViewController ()
 
@@ -26,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Сохранить" style:UIBarButtonItemStyleBordered target:self action:@selector(save)];
     }
     return self;
@@ -167,16 +168,20 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (void)cancel
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)save
 {
     if (self.notify && _edit == YES) {
         [self.notify setValue:self.nameField.text forKey:@"name"];
+        
+
+        if (notifyDate==nil) {
+            [self.notify setValue:[self.notify valueForKey:@"date"] forKey:@"date"];
+        }
+        else {
         [self.notify setValue:notifyDate forKey:@"date"];
+        }
+        
         [self.notify setValue:self.repeatField.text forKey:@"repeat"];
     }
     else {
@@ -217,7 +222,26 @@
     
 
     }
-        [self dismissViewControllerAnimated:YES completion:nil];
+        AGToastView *toast = [[AGToastView alloc] init];
+     NSError *error = nil;
+     if (![self.managedObjectContext save:&error]){
+         toast.textLabel.text =(@"Ошибка: %@ %@", error, [error localizedDescription]);
+     }
+     else {
+         AGToastView *toast = [[AGToastView alloc] init];
+         toast.textLabel.text = @"Напоминание добавлено";
+         [toast showInView:self.view];
+         // Dismiss the view controller
+         [self performSelector:@selector(back) withObject:nil afterDelay:3.5];
+         
+     }
+}
+
+-(void)back {
+    [repeatField resignFirstResponder];
+    [nameField resignFirstResponder];
+    [dateField resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
