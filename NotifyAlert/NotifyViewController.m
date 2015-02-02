@@ -8,7 +8,8 @@
 
 #import "NotifyViewController.h"
 #import "NotifyData.h"
-#import "AGToastView.h"
+#import "UIView+Toast.h"
+
 
 @interface NotifyViewController ()
 
@@ -222,15 +223,16 @@
     
 
     }
-        AGToastView *toast = [[AGToastView alloc] init];
      NSError *error = nil;
      if (![self.managedObjectContext save:&error]){
-         toast.textLabel.text =(@"Ошибка: %@ %@", error, [error localizedDescription]);
+         [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+       duration:3.5
+       position:CSToastPositionCenter];
      }
      else {
-         AGToastView *toast = [[AGToastView alloc] init];
-         toast.textLabel.text = @"Напоминание добавлено";
-         [toast showInView:self.view];
+       [self.view makeToast:@"Напоминание добавлено"
+       duration:3.0
+       position:CSToastPositionCenter];
          // Dismiss the view controller
          [self performSelector:@selector(back) withObject:nil afterDelay:3.5];
          
