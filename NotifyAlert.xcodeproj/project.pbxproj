@@ -103,9 +103,6 @@
 			children = (
 				11A2C36B1A7AFF7B00061625 /* AppDelegate.h */,
 				11A2C36C1A7AFF7B00061625 /* AppDelegate.m */,
-				11A2C3771A7AFF7B00061625 /* Images.xcassets */,
-				11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */,
-				11A2C3671A7AFF7B00061625 /* Supporting Files */,
 				11A2C3901A7AFFD600061625 /* NotifyViewController.h */,
 				11A2C3911A7AFFD600061625 /* NotifyViewController.m */,
 				11A2C3921A7AFFD600061625 /* NotifyViewController.xib */,
@@ -115,6 +112,11 @@
 				11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */,
 				11D92A121A7BE408006080CB /* NotifyTableViewCell.h */,
 				11D92A131A7BE408006080CB /* NotifyTableViewCell.m */,
+				11D3DA201A7D313D00FE41D0 /* NotifyData.h */,
+				11D3DA211A7D313D00FE41D0 /* NotifyData.m */,
+				11A2C3771A7AFF7B00061625 /* Images.xcassets */,
+				11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */,
+				11A2C3671A7AFF7B00061625 /* Supporting Files */,
 			);
 			path = NotifyAlert;
 			sourceTree = "<group>";
@@ -122,8 +124,6 @@
 		11A2C3671A7AFF7B00061625 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				11D3DA201A7D313D00FE41D0 /* NotifyData.h */,
-				11D3DA211A7D313D00FE41D0 /* NotifyData.m */,
 				11A2C3681A7AFF7B00061625 /* Info.plist */,
 				11A2C3691A7AFF7B00061625 /* main.m */,
 			);
