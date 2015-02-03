@@ -16,6 +16,10 @@
 		11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3921A7AFFD600061625 /* NotifyViewController.xib */; };
 		11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3961A7B000B00061625 /* NotifyTableViewController.m */; };
 		11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */; };
+		11D18B5E1A811F4300E3FF96 /* Pods-acknowledgements.markdown in Sources */ = {isa = PBXBuildFile; fileRef = 11D18B591A811F4300E3FF96 /* Pods-acknowledgements.markdown */; };
+		11D18B5F1A811F4300E3FF96 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 11D18B5A1A811F4300E3FF96 /* Pods-acknowledgements.plist */; };
+		11D18B601A811F4300E3FF96 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D18B5B1A811F4300E3FF96 /* Pods-dummy.m */; };
+		11D18B611A811F4300E3FF96 /* Pods-resources.sh in Resources */ = {isa = PBXBuildFile; fileRef = 11D18B5D1A811F4300E3FF96 /* Pods-resources.sh */; };
 		11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */; };
 		11D3DA221A7D313D00FE41D0 /* NotifyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D3DA211A7D313D00FE41D0 /* NotifyData.m */; };
 		11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D92A131A7BE408006080CB /* NotifyTableViewCell.m */; };
@@ -49,6 +53,11 @@
 		11A2C3951A7B000B00061625 /* NotifyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyTableViewController.h; sourceTree = "<group>"; };
 		11A2C3961A7B000B00061625 /* NotifyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyTableViewController.m; sourceTree = "<group>"; };
 		11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewController.xib; sourceTree = "<group>"; };
+		11D18B591A811F4300E3FF96 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "Pods-acknowledgements.markdown"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		11D18B5A1A811F4300E3FF96 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pods-acknowledgements.plist"; path = "Pods/Target Support Files/Pods/Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		11D18B5B1A811F4300E3FF96 /* Pods-dummy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Pods-dummy.m"; path = "Pods/Target Support Files/Pods/Pods-dummy.m"; sourceTree = "<group>"; };
+		11D18B5C1A811F4300E3FF96 /* Pods-environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Pods-environment.h"; path = "Pods/Target Support Files/Pods/Pods-environment.h"; sourceTree = "<group>"; };
+		11D18B5D1A811F4300E3FF96 /* Pods-resources.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "Pods-resources.sh"; path = "Pods/Target Support Files/Pods/Pods-resources.sh"; sourceTree = "<group>"; };
 		11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewCell.xib; sourceTree = "<group>"; };
 		11D3DA201A7D313D00FE41D0 /* NotifyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyData.h; sourceTree = "<group>"; };
 		11D3DA211A7D313D00FE41D0 /* NotifyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyData.m; sourceTree = "<group>"; };
@@ -152,6 +161,11 @@
 			children = (
 				F68281B98270391D267E1031 /* Pods.debug.xcconfig */,
 				9FAF4C4F6C1AA1329BA2B7F3 /* Pods.release.xcconfig */,
+				11D18B591A811F4300E3FF96 /* Pods-acknowledgements.markdown */,
+				11D18B5A1A811F4300E3FF96 /* Pods-acknowledgements.plist */,
+				11D18B5B1A811F4300E3FF96 /* Pods-dummy.m */,
+				11D18B5C1A811F4300E3FF96 /* Pods-environment.h */,
+				11D18B5D1A811F4300E3FF96 /* Pods-resources.sh */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -248,7 +262,9 @@
 			files = (
 				11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */,
 				11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */,
+				11D18B611A811F4300E3FF96 /* Pods-resources.sh in Resources */,
 				11A2C3781A7AFF7B00061625 /* Images.xcassets in Resources */,
+				11D18B5F1A811F4300E3FF96 /* Pods-acknowledgements.plist in Resources */,
 				11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,7 +320,9 @@
 				11A2C3931A7AFFD600061625 /* NotifyViewController.m in Sources */,
 				11D3DA221A7D313D00FE41D0 /* NotifyData.m in Sources */,
 				11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */,
+				11D18B601A811F4300E3FF96 /* Pods-dummy.m in Sources */,
 				11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */,
+				11D18B5E1A811F4300E3FF96 /* Pods-acknowledgements.markdown in Sources */,
 				11A2C36A1A7AFF7B00061625 /* main.m in Sources */,
 				11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */,
 			);
