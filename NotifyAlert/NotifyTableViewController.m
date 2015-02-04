@@ -34,8 +34,8 @@
 
 - (void)AddNotify
 {
-    _notifyViewC.edit = NO;
-    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:_notifyViewC];
+    self.notifyViewC.edit = NO;
+    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:self.notifyViewC];
     [self.navigationController presentViewController:navigationC
                        animated:YES
                      completion:nil];
@@ -102,15 +102,11 @@
     
     NSManagedObject *notification = [self.notifications objectAtIndex:indexPath.row];
     
-   // UILabel *nameRemind = (UILabel *) [cell viewWithTag:100];
-   // [nameRemind setText:[notification valueForKey:@"name"]];
     [cell.nameRemind setText:[notification valueForKey:@"name"]];
-    // DateFormat ----
+    // DateFormat
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy/MM/dd HH:mm"];
     NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
-  //  UILabel *dateRemind = (UILabel *) [cell viewWithTag:101];
-  //  [dateRemind setText:string];
     [cell.dateRemind setText:string];
     
     return cell;
@@ -164,9 +160,9 @@
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _notifyViewC.edit = YES;
-    _notifyViewC.notify = [self.notifications objectAtIndex:indexPath.row];
-    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:_notifyViewC];
+    self.notifyViewC.edit = YES;
+    self.notifyViewC.notify = [self.notifications objectAtIndex:indexPath.row];
+    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:self.notifyViewC];
     [self.navigationController presentViewController:navigationC
                                             animated:YES
                                           completion:nil];

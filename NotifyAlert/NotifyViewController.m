@@ -13,15 +13,11 @@
 
 @interface NotifyViewController ()
 
-@property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 @end
 
 @implementation NotifyViewController
-@synthesize repeatField;
-@synthesize nameField;
-@synthesize dateField;
-@synthesize notifyDate;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,24 +26,34 @@
     {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Сохранить" style:UIBarButtonItemStyleBordered target:self action:@selector(save)];
+        
+        pickerArray = [[NSMutableArray alloc] init];
+        
+        [pickerArray addObject:@"не повторять"];
+        [pickerArray addObject:@"через минуту"];
+        [pickerArray addObject:@"через час"];
+        [pickerArray addObject:@"через день"];
+        [pickerArray addObject:@"через неделю"];
+        
+
     }
     return self;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField == repeatField)
+    if (textField == self.repeatField)
     {
         // Show PickerView
         CGRect pickerFrame = CGRectMake(0, 162, 0, 0);
         pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
         
-        repeatField.text = [pickerArray objectAtIndex:0];
-        repeatField.inputView = pickerView;
+        self.repeatField.text = [pickerArray objectAtIndex:0];
+        self.repeatField.inputView = pickerView;
         
         pickerView.delegate = self;
     }
-    else if (textField == dateField)
+    else if (textField == self.dateField)
     {
         // Show DatePickerView
         CGRect datePickerFrame = CGRectMake(0, 162, 0, 0);
@@ -55,14 +61,14 @@
         [datePickerView setDatePickerMode:UIDatePickerModeDateAndTime];
         [datePickerView setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"ru_RU"]];
         
-        notifyDate = [datePickerView date];
+        self.notifyDate = [datePickerView date];
         // DateFormat ----
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setDateFormat:@"yyyy/MM/dd HH:mm"];
         
-        [dateField setText:[format stringFromDate:self.notifyDate]];
+        [self.dateField setText:[format stringFromDate:self.notifyDate]];
         
-        dateField.inputView = datePickerView;
+        self.dateField.inputView = datePickerView;
         
         [datePickerView addTarget:self action:@selector(didChangeDate:) forControlEvents:UIControlEventValueChanged];
         
@@ -74,19 +80,19 @@
 -(void)didChangeDate:(id)sender
 {
     // DateFormat ----
-    notifyDate = [datePickerView date];
+    self.notifyDate = [datePickerView date];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy/MM/dd HH:mm"];
     
-    [dateField setText:[format stringFromDate:self.notifyDate]];
+    [self.dateField setText:[format stringFromDate:self.notifyDate]];
     
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [repeatField resignFirstResponder];
-    [nameField resignFirstResponder];
-    [dateField resignFirstResponder];
+    [self.repeatField resignFirstResponder];
+    [self.nameField resignFirstResponder];
+    [self.dateField resignFirstResponder];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -107,7 +113,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    repeatField.text = [pickerArray objectAtIndex:row];
+    self.repeatField.text = [pickerArray objectAtIndex:row];
     
 }
 
@@ -117,7 +123,7 @@
     
     // Do any additional setup after loading the view from its nib.
    
-    if (_edit == YES) {
+    if (self.edit == YES) {
         [self.nameField setText:[self.notify valueForKey:@"name"]];
         
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -125,34 +131,22 @@
         [self.dateField setText:[format stringFromDate:[self.notify valueForKey:@"date"]]];
         
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
-    } else if (_edit == NO) {
-        nameField.text=nil;
-        dateField.text=nil;
-        repeatField.text=nil;
+    } else if (self.edit == NO) {
+        self.nameField.text=nil;
+        self.dateField.text=nil;
+        self.repeatField.text=nil;
     }
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
     
-    pickerArray = [[NSMutableArray alloc] init];
-    
-    [pickerArray addObject:@"не повторять"];
-    [pickerArray addObject:@"через минуту"];
-    [pickerArray addObject:@"через час"];
-    [pickerArray addObject:@"через день"];
-    [pickerArray addObject:@"через неделю"];
-    
-    repeatField.delegate = self;
-    
-
-    
+    self.repeatField.delegate = self;
 
 
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -172,7 +166,7 @@
 
 - (void)save
 {
-    if (self.notify && _edit == YES) {
+    if (self.notify && self.edit == YES) {
         [self.notify setValue:self.nameField.text forKey:@"name"];
         
 
@@ -180,7 +174,7 @@
             [self.notify setValue:[self.notify valueForKey:@"date"] forKey:@"date"];
         }
         else {
-        [self.notify setValue:notifyDate forKey:@"date"];
+        [self.notify setValue:self.notifyDate forKey:@"date"];
         }
         
         [self.notify setValue:self.repeatField.text forKey:@"repeat"];
@@ -189,33 +183,33 @@
     NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
                                                      inManagedObjectContext:self.managedObjectContext];
     notifyAdd.name = self.nameField.text;
-    [notifyAdd setValue:notifyDate forKey:@"date"];
+    [notifyAdd setValue:self.notifyDate forKey:@"date"];
     notifyAdd.repeat = self.repeatField.text;
         
         UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = notifyDate;
+        localNotification.fireDate = self.notifyDate;
         localNotification.alertBody = self.nameField.text;
         localNotification.alertAction = @"Show me the item";
         localNotification.timeZone = [NSTimeZone defaultTimeZone];
         localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-        if ([repeatField.text isEqual: @"не повторять"]) {
+        if ([self.repeatField.text isEqual: @"не повторять"]) {
             
             localNotification.repeatInterval = 0;
             
         }
-        else if ([repeatField.text isEqual: @"через минуту"]) {
+        else if ([self.repeatField.text isEqual: @"через минуту"]) {
             
             localNotification.repeatInterval = NSCalendarUnitMinute;
         }
-        else if ([repeatField.text isEqual: @"через час"]) {
+        else if ([self.repeatField.text isEqual: @"через час"]) {
             
             localNotification.repeatInterval = NSCalendarUnitHour;
         }
-        else if ([repeatField.text isEqual: @"через день"]) {
+        else if ([self.repeatField.text isEqual: @"через день"]) {
             
             localNotification.repeatInterval = NSCalendarUnitDay;
         }
-        else if ([repeatField.text isEqual: @"через неделю"]) {
+        else if ([self.repeatField.text isEqual: @"через неделю"]) {
             
             localNotification.repeatInterval = NSCalendarUnitWeekday;
         }
@@ -240,9 +234,9 @@
 }
 
 -(void)back {
-    [repeatField resignFirstResponder];
-    [nameField resignFirstResponder];
-    [dateField resignFirstResponder];
+    [self.repeatField resignFirstResponder];
+    [self.nameField resignFirstResponder];
+    [self.dateField resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

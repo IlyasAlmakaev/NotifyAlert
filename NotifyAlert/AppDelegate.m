@@ -40,8 +40,11 @@
     if (state == UIApplicationStateActive) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Напоминание:"
                                                         message:notification.alertBody
-                                                       delegate:self cancelButtonTitle:@"OK"
+                                                       delegate:self cancelButtonTitle:nil
                                               otherButtonTitles:nil];
+        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
+                            withObject:nil
+                            afterDelay:5.0];
         [alert show];
     }
     

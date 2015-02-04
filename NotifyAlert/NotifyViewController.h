@@ -23,9 +23,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *dateField;
 @property (weak, nonatomic) IBOutlet UITextField *repeatField;
 
-@property (nonatomic, retain) NSDate *notifyDate;
-
 @property (strong) NSManagedObject *notify;
+
+@property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+@property (nonatomic, retain) NSDate *notifyDate;
 
 @property (nonatomic) BOOL edit;
 
