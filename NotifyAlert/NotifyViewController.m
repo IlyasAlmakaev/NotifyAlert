@@ -186,6 +186,11 @@
     [notifyAdd setValue:self.notifyDate forKey:@"date"];
     notifyAdd.repeat = self.repeatField.text;
         
+        // New for iOS 8 - Register the notifications
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+        
         UILocalNotification* localNotification = [[UILocalNotification alloc] init];
         localNotification.fireDate = self.notifyDate;
         localNotification.alertBody = self.nameField.text;
