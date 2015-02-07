@@ -11,5 +11,6 @@
 @interface NotifyTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameRemind;
 @property (weak, nonatomic) IBOutlet UILabel *dateRemind;
+@property (weak, nonatomic) IBOutlet UILabel *timerRemind;
 
 @end

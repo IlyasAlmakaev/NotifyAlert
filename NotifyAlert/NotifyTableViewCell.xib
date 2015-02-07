@@ -13,14 +13,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Текст напоминания события" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qyF-yB-Ywt">
-                        <rect key="frame" x="8" y="13" width="157" height="42"/>
+                        <rect key="frame" x="8" y="0.0" width="157" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Через" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zy6-A3-3tm">
+                        <rect key="frame" x="8" y="42" width="304" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/02/2015 21:20" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B9F-n4-dYf">
-                        <rect key="frame" x="173" y="21" width="139" height="21"/>
+                        <rect key="frame" x="173" y="10" width="139" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -31,6 +38,7 @@
             <connections>
                 <outlet property="dateRemind" destination="B9F-n4-dYf" id="2os-xJ-2PM"/>
                 <outlet property="nameRemind" destination="qyF-yB-Ywt" id="5Rw-PQ-cPR"/>
+                <outlet property="timerRemind" destination="zy6-A3-3tm" id="7qI-MZ-KmD"/>
             </connections>
             <point key="canvasLocation" x="40" y="199"/>
         </tableViewCell>

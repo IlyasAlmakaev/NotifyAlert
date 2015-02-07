@@ -109,6 +109,69 @@
     NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
     [cell.dateRemind setText:string];
     
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDate* now = [NSDate date];
+    NSDate *timeRemind = [notification valueForKey:@"date"];
+    
+    NSDateComponents *currentComps = [calendar components:( NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:now toDate:timeRemind options:0];
+ //   NSDate *itemDate = [calendar dateFromComponents:currentComps];
+    
+ 
+    NSInteger days = [currentComps day];
+    NSInteger hours = [currentComps hour];
+    NSInteger minutes = [currentComps minute];
+    
+    NSString *dayString;
+    
+    if (days > 0) {
+        if (days == 1) {
+                    dayString = [NSString stringWithFormat:@"Завтра через %ld ч. %ld мин.", (long)hours, (long)minutes];
+        }
+        else if (days == 2) {
+            dayString = [NSString stringWithFormat:@"Послезавтра через %ld ч. %ld мин.", (long)hours, (long)minutes];
+        }
+        else  {
+            dayString = [NSString stringWithFormat:@"Через %ld дн. %ld ч. %ld мин.", (long)days, (long)hours, (long)minutes];
+        }
+    }
+    
+    if (days <= 0)
+        dayString = [NSString stringWithFormat:@"Через %ld ч. %ld мин.", (long)hours, (long)minutes];
+    
+    if (hours <= 0)
+        dayString = [NSString stringWithFormat:@"Через %ld мин.", (long)minutes];
+    
+    if (minutes <= 0)
+        dayString = [NSString stringWithFormat:@"Время истекло"];
+    
+
+
+    
+
+    
+
+    
+    
+    
+
+    
+  /*  NSTimeInterval differenceInDays =
+    [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:now] -
+    [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:timeRemind];
+    
+    NSString *dayString;
+    NSDate *calculateDate = [[NSDate alloc] initWithTimeIntervalSinceNow:differenceInDays];
+
+            NSDateFormatter* dayFormatter = [[NSDateFormatter alloc] init];
+      //      [dayFormatter setLocale:NSLocale];
+            [dayFormatter setDateFormat:@"HH:mm"];
+            dayString = [dayFormatter stringFromDate: calculateDate];*/
+   /* NSDateFormatter* dayFormatter = [[NSDateFormatter alloc] init];
+    [dayFormatter setDateFormat:@"dd HH:mm"];
+NSString *stringTime = [dayFormatter stringFromDate:itemDate];*/
+    
+    [cell.timerRemind setText:dayString];
+    
     return cell;
 }
 
