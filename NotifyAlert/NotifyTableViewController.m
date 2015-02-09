@@ -26,7 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"Напоминание";
+        self.navigationItem.title = @"Reminders";
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd                                                                                                                       target:self                                                                                                                       action:@selector(AddNotify)];
     }
     return self;
@@ -54,6 +54,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52.0/255.0 green:52.0/255.0 blue:52.0/255.0 alpha:1.0f];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     // Connect data base function
     NSManagedObjectContext *managedObjextContext = [self managedObjectContext];
     // Load data "NotifyData" in tableView

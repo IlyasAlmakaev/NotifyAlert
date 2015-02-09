@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *dateField;
 @property (weak, nonatomic) IBOutlet UITextField *repeatField;
+@property (weak, nonatomic) IBOutlet UISwitch *switcher;
+- (IBAction)switcherPressed:(id)sender;
 
 @property (strong) NSManagedObject *notify;
 

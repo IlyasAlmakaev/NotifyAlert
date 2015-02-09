@@ -24,8 +24,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Сохранить" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+        self.navigationItem.title = @"New Remind";
+
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(back)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
         
         pickerArray = [[NSMutableArray alloc] init];
         
@@ -64,7 +66,7 @@
         self.notifyDate = [datePickerView date];
         // DateFormat ----
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"yyyy/MM/dd HH:mm"];
+        [format setDateFormat:@"HH:mm / yy.MM.dd"];
         
         [self.dateField setText:[format stringFromDate:self.notifyDate]];
         
@@ -82,7 +84,7 @@
     // DateFormat ----
     self.notifyDate = [datePickerView date];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy/MM/dd HH:mm"];
+    [format setDateFormat:@"HH:mm / yy.MM.dd"];
     
     [self.dateField setText:[format stringFromDate:self.notifyDate]];
     
@@ -122,16 +124,22 @@
     [super viewWillAppear:animated];
     
     // Do any additional setup after loading the view from its nib.
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52.0/255.0 green:52.0/255.0 blue:52.0/255.0 alpha:1.0f];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
    
     if (self.edit == YES) {
+        self.switcher.on = true;
         [self.nameField setText:[self.notify valueForKey:@"name"]];
         
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"yyyy/MM/dd HH:mm"];
+        [format setDateFormat:@"HH:mm / yy.MM.dd"];
         [self.dateField setText:[format stringFromDate:[self.notify valueForKey:@"date"]]];
         
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
     } else if (self.edit == NO) {
+        self.switcher.on = false;
         self.nameField.text=nil;
         self.dateField.text=nil;
         self.repeatField.text=nil;
@@ -248,4 +256,18 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)switcherPressed:(id)sender {
+    if (self.switcher.on) {
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        [self.dateField setText:[format stringFromDate:[NSDate date]]];
+        self.repeatField.text = @"";
+        self.repeatField.placeholder = @"Do not repeat";
+    }
+else
+    self.dateField.text = @"";
+    self.repeatField.text = @"";
+    self.dateField.placeholder = @"Remind it?";
+    self.repeatField.placeholder = @"Repeat setting is disabled";
+}
 @end
