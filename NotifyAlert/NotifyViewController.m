@@ -24,8 +24,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Сохранить" style:UIBarButtonItemStyleBordered target:self action:@selector(save)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Отменить" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Сохранить" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
         
         pickerArray = [[NSMutableArray alloc] init];
         
@@ -168,16 +168,19 @@
 {
     if (self.notify && self.edit == YES) {
         [self.notify setValue:self.nameField.text forKey:@"name"];
-        
-
-        if (notifyDate==nil) {
-            [self.notify setValue:[self.notify valueForKey:@"date"] forKey:@"date"];
-        }
-        else {
         [self.notify setValue:self.notifyDate forKey:@"date"];
-        }
-        
         [self.notify setValue:self.repeatField.text forKey:@"repeat"];
+        
+        // Delete and add new local notification
+        NSString *notificationName = [self.notify valueForKey:@"name"];
+        NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+        for(UILocalNotification *localNotification in localNotifications) {
+            if ([localNotification.alertBody isEqualToString:notificationName])
+            {
+                // Delete
+                [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+            }
+        }
     }
     else {
     NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
@@ -185,7 +188,8 @@
     notifyAdd.name = self.nameField.text;
     [notifyAdd setValue:self.notifyDate forKey:@"date"];
     notifyAdd.repeat = self.repeatField.text;
-        
+    }
+    
         // New for iOS 8 - Register the notifications
         UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
         UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
@@ -195,6 +199,7 @@
         localNotification.fireDate = self.notifyDate;
         localNotification.alertBody = self.nameField.text;
         localNotification.alertAction = @"Show me the item";
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
         localNotification.timeZone = [NSTimeZone defaultTimeZone];
         localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
         if ([self.repeatField.text isEqual: @"не повторять"]) {
@@ -219,9 +224,7 @@
             localNotification.repeatInterval = NSCalendarUnitWeekday;
         }
         [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
 
-    }
      NSError *error = nil;
      if (![self.managedObjectContext save:&error]){
          [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])

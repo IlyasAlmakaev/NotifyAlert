@@ -142,33 +142,7 @@
         dayString = [NSString stringWithFormat:@"Через %ld мин.", (long)minutes];
     
     if (minutes <= 0)
-        dayString = [NSString stringWithFormat:@"Время истекло"];
-    
-
-
-    
-
-    
-
-    
-    
-    
-
-    
-  /*  NSTimeInterval differenceInDays =
-    [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:now] -
-    [calendar ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitEra forDate:timeRemind];
-    
-    NSString *dayString;
-    NSDate *calculateDate = [[NSDate alloc] initWithTimeIntervalSinceNow:differenceInDays];
-
-            NSDateFormatter* dayFormatter = [[NSDateFormatter alloc] init];
-      //      [dayFormatter setLocale:NSLocale];
-            [dayFormatter setDateFormat:@"HH:mm"];
-            dayString = [dayFormatter stringFromDate: calculateDate];*/
-   /* NSDateFormatter* dayFormatter = [[NSDateFormatter alloc] init];
-    [dayFormatter setDateFormat:@"dd HH:mm"];
-NSString *stringTime = [dayFormatter stringFromDate:itemDate];*/
+        dayString = [NSString stringWithFormat:@"Время пришло"];
     
     [cell.timerRemind setText:dayString];
     
@@ -188,7 +162,17 @@ NSString *stringTime = [dayFormatter stringFromDate:itemDate];*/
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSManagedObjectContext *context = [self managedObjectContext];
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete local notification
+        NSString *notificationName = [[self.notifications objectAtIndex:indexPath.row] valueForKey:@"name"];
+        NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+        for(UILocalNotification *localNotification in localNotifications) {
+            if ([localNotification.alertBody isEqualToString:notificationName])
+            {
+                [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+            }
+        }
         // Delete the row from the data source
         [context deleteObject:[self.notifications objectAtIndex:indexPath.row]];
         NSError *error = nil;
@@ -197,7 +181,13 @@ NSString *stringTime = [dayFormatter stringFromDate:itemDate];*/
             return;
         }
         [self.notifications removeObjectAtIndex:indexPath.row];
+        
+        //[[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
+      
+
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [self.tableView reloadData];
     }   
