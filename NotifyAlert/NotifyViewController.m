@@ -31,11 +31,11 @@
         
         pickerArray = [[NSMutableArray alloc] init];
         
-        [pickerArray addObject:@"не повторять"];
-        [pickerArray addObject:@"через минуту"];
-        [pickerArray addObject:@"через час"];
-        [pickerArray addObject:@"через день"];
-        [pickerArray addObject:@"через неделю"];
+        [pickerArray addObject:@"Do not repeat"];
+        [pickerArray addObject:@"Every minute"];
+        [pickerArray addObject:@"Every hour"];
+        [pickerArray addObject:@"Every day"];
+        [pickerArray addObject:@"Every week"];
         
 
     }
@@ -131,6 +131,9 @@
    
     if (self.edit == YES) {
         self.switcher.on = true;
+        self.dateField.enabled = true;
+        self.repeatField.enabled = true;
+        
         [self.nameField setText:[self.notify valueForKey:@"name"]];
         
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
@@ -138,11 +141,26 @@
         [self.dateField setText:[format stringFromDate:[self.notify valueForKey:@"date"]]];
         
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
+        
+        if ([self.notify valueForKey:@"date"] == nil && [self.notify valueForKey:@"repeat"] == nil)  {
+            self.switcher.on = false;
+            self.dateField.enabled = false;
+            self.repeatField.enabled = false;
+            self.dateField.text=nil;
+            self.repeatField.text=nil;
+            self.dateField.placeholder = @"Remind it?";
+            self.repeatField.placeholder = @"Repeat setting is disabled";
+        }
+        
     } else if (self.edit == NO) {
         self.switcher.on = false;
-        self.nameField.text=nil;
+        self.dateField.enabled = false;
+        self.repeatField.enabled = false;
         self.dateField.text=nil;
         self.repeatField.text=nil;
+        self.dateField.placeholder = @"Remind it?";
+        self.repeatField.placeholder = @"Repeat setting is disabled";
+        self.nameField.text=nil;
     }
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
@@ -174,6 +192,8 @@
 
 - (void)save
 {
+
+    if (self.switcher.on) {
     if (self.notify && self.edit == YES) {
         [self.notify setValue:self.nameField.text forKey:@"name"];
         [self.notify setValue:self.notifyDate forKey:@"date"];
@@ -192,10 +212,11 @@
     }
     else {
     NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
-                                                     inManagedObjectContext:self.managedObjectContext];
+                                                               inManagedObjectContext:self.managedObjectContext];
     notifyAdd.name = self.nameField.text;
     [notifyAdd setValue:self.notifyDate forKey:@"date"];
     notifyAdd.repeat = self.repeatField.text;
+    self.edit = NO;
     }
     
         // New for iOS 8 - Register the notifications
@@ -210,29 +231,43 @@
         localNotification.soundName = UILocalNotificationDefaultSoundName;
         localNotification.timeZone = [NSTimeZone defaultTimeZone];
         localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-        if ([self.repeatField.text isEqual: @"не повторять"]) {
+        if ([self.repeatField.text isEqual: @"Do not repeat"]) {
             
             localNotification.repeatInterval = 0;
             
         }
-        else if ([self.repeatField.text isEqual: @"через минуту"]) {
+        else if ([self.repeatField.text isEqual: @"Every minute"]) {
             
             localNotification.repeatInterval = NSCalendarUnitMinute;
         }
-        else if ([self.repeatField.text isEqual: @"через час"]) {
+        else if ([self.repeatField.text isEqual: @"Every hour"]) {
             
             localNotification.repeatInterval = NSCalendarUnitHour;
         }
-        else if ([self.repeatField.text isEqual: @"через день"]) {
+        else if ([self.repeatField.text isEqual: @"Every day"]) {
             
             localNotification.repeatInterval = NSCalendarUnitDay;
         }
-        else if ([self.repeatField.text isEqual: @"через неделю"]) {
+        else if ([self.repeatField.text isEqual: @"Every week"]) {
             
             localNotification.repeatInterval = NSCalendarUnitWeekday;
         }
         [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+    else {
+        if (self.notify && self.edit == YES) {
+            [self.notify setValue:self.nameField.text forKey:@"name"];
+            [self.notify setValue:nil forKey:@"date"];
+            [self.notify setValue:nil forKey:@"repeat"];
 
+        }
+        else {
+        NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
+                                                                   inManagedObjectContext:self.managedObjectContext];
+        notifyAdd.name = self.nameField.text;
+        self.edit = NO;
+        }
+    }
      NSError *error = nil;
      if (![self.managedObjectContext save:&error]){
          [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
@@ -240,12 +275,12 @@
        position:CSToastPositionCenter];
      }
      else {
-       [self.view makeToast:@"Напоминание добавлено"
+       [self.view makeToast:@"Add Remind"
        duration:3.0
        position:CSToastPositionCenter];
          // Dismiss the view controller
          [self performSelector:@selector(back) withObject:nil afterDelay:3.5];
-         
+       
      }
 }
 
@@ -256,18 +291,27 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 - (IBAction)switcherPressed:(id)sender {
     if (self.switcher.on) {
+        self.dateField.enabled = true;
+        self.repeatField.enabled = true;
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setDateFormat:@"HH:mm / yy.MM.dd"];
         [self.dateField setText:[format stringFromDate:[NSDate date]]];
-        self.repeatField.text = @"";
-        self.repeatField.placeholder = @"Do not repeat";
+        self.notifyDate = [NSDate date];
+        self.repeatField.text = nil;
+        self.repeatField.placeholder = [pickerArray objectAtIndex:0];
+        
     }
 else
-    self.dateField.text = @"";
-    self.repeatField.text = @"";
+{
+    self.dateField.enabled = false;
+    self.repeatField.enabled = false;
+    self.dateField.text = nil;
+    self.repeatField.text = nil;
     self.dateField.placeholder = @"Remind it?";
     self.repeatField.placeholder = @"Repeat setting is disabled";
+}
 }
 @end

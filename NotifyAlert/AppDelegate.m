@@ -40,7 +40,7 @@
 {
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Напоминание:"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Remind:"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:nil
                                               otherButtonTitles:nil];

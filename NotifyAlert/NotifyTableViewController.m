@@ -110,9 +110,17 @@
     [cell.nameRemind setText:[notification valueForKey:@"name"]];
     // DateFormat
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy/MM/dd HH:mm"];
+    [format setDateFormat:@"HH:mm / yy.MM.dd"];
     NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
     [cell.dateRemind setText:string];
+    
+    if ([[notification valueForKey:@"repeat"]  isEqual: @"Do not repeat"] || [notification valueForKey:@"repeat"] == nil) {
+        cell.imageRepeat.hidden = true;
+    }
+    else
+    {
+        cell.imageRepeat.hidden = false;
+    }
     
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDate* now = [NSDate date];
@@ -130,24 +138,24 @@
     
     if (days > 0) {
         if (days == 1) {
-                    dayString = [NSString stringWithFormat:@"Завтра через %ld ч. %ld мин.", (long)hours, (long)minutes];
+                    dayString = [NSString stringWithFormat:@"Tomorrow in %ld h. %ld min.", (long)hours, (long)minutes];
         }
         else if (days == 2) {
-            dayString = [NSString stringWithFormat:@"Послезавтра через %ld ч. %ld мин.", (long)hours, (long)minutes];
+            dayString = [NSString stringWithFormat:@"Day after tomorrow in %ld h. %ld min.", (long)hours, (long)minutes];
         }
         else  {
-            dayString = [NSString stringWithFormat:@"Через %ld дн. %ld ч. %ld мин.", (long)days, (long)hours, (long)minutes];
+            dayString = [NSString stringWithFormat:@"In %ld d. %ld h. %ld min.", (long)days, (long)hours, (long)minutes];
         }
     }
     
     if (days <= 0)
-        dayString = [NSString stringWithFormat:@"Через %ld ч. %ld мин.", (long)hours, (long)minutes];
+        dayString = [NSString stringWithFormat:@"In %ld h. %ld min.", (long)hours, (long)minutes];
     
     if (hours <= 0)
-        dayString = [NSString stringWithFormat:@"Через %ld мин.", (long)minutes];
+        dayString = [NSString stringWithFormat:@"In %ld min.", (long)minutes];
     
     if (minutes <= 0)
-        dayString = [NSString stringWithFormat:@"Время пришло"];
+        dayString = [NSString stringWithFormat:@"No time"];
     
     [cell.timerRemind setText:dayString];
     
