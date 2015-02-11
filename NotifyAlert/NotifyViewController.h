@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 
 @interface NotifyViewController : UIViewController
-<UITextFieldDelegate, UIPickerViewDelegate>
+<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 {
     NSMutableArray *pickerArray;
     UIPickerView *pickerView;

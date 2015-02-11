@@ -17,6 +17,7 @@
 
 @implementation NotifyViewController
 
+    // Block text for repeatField and dateField
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     return NO;
 }
@@ -39,7 +40,6 @@
         [pickerArray addObject:@"Every day"];
         [pickerArray addObject:@"Every week"];
         
-
     }
     return self;
 }
@@ -51,11 +51,12 @@
         // Show PickerView
         CGRect pickerFrame = CGRectMake(0, 162, 0, 0);
         pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
-        
-        self.repeatField.text = [pickerArray objectAtIndex:0];
+        pickerView.delegate = self;
+        pickerView.dataSource = self;
+        [pickerView selectRow:[[NSUserDefaults standardUserDefaults]integerForKey:@"Index"] inComponent:0 animated:NO];
         self.repeatField.inputView = pickerView;
         
-        pickerView.delegate = self;
+        
     }
     else if (textField == self.dateField)
     {
@@ -117,6 +118,8 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
+    [usrDefaults setInteger:row forKey:@"Index"];
     self.repeatField.text = [pickerArray objectAtIndex:row];
     
 }
@@ -165,6 +168,8 @@
         self.dateField.placeholder = @"Remind it?";
         self.repeatField.placeholder = @"Repeat setting is disabled";
         self.nameField.text=nil;
+        NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
+        [usrDefaults setInteger:0 forKey:@"Index"];
     }
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
