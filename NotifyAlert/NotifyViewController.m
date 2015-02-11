@@ -202,94 +202,119 @@
 - (void)save
 {
 
-    if (self.switcher.on) {
-    if (self.notify && self.edit == YES) {
-        [self.notify setValue:self.nameField.text forKey:@"name"];
-        [self.notify setValue:self.notifyDate forKey:@"date"];
-        [self.notify setValue:self.repeatField.text forKey:@"repeat"];
-        
-        // Delete and add new local notification
-        NSString *notificationName = [self.notify valueForKey:@"name"];
-        NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
-        for(UILocalNotification *localNotification in localNotifications) {
-            if ([localNotification.alertBody isEqualToString:notificationName])
-            {
-                // Delete
-                [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
-            }
-        }
-    }
-    else {
-    NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
-                                                               inManagedObjectContext:self.managedObjectContext];
-    notifyAdd.name = self.nameField.text;
-    [notifyAdd setValue:self.notifyDate forKey:@"date"];
-    notifyAdd.repeat = self.repeatField.text;
-    self.edit = NO;
-    }
-    
-        // New for iOS 8 - Register the notifications
-        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-        
-        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = self.notifyDate;
-        localNotification.alertBody = self.nameField.text;
-        localNotification.alertAction = @"Show me the item";
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-        if ([self.repeatField.text isEqual: @"Do not repeat"]) {
-            
-            localNotification.repeatInterval = 0;
-            
-        }
-        else if ([self.repeatField.text isEqual: @"Every minute"]) {
-            
-            localNotification.repeatInterval = NSCalendarUnitMinute;
-        }
-        else if ([self.repeatField.text isEqual: @"Every hour"]) {
-            
-            localNotification.repeatInterval = NSCalendarUnitHour;
-        }
-        else if ([self.repeatField.text isEqual: @"Every day"]) {
-            
-            localNotification.repeatInterval = NSCalendarUnitDay;
-        }
-        else if ([self.repeatField.text isEqual: @"Every week"]) {
-            
-            localNotification.repeatInterval = NSCalendarUnitWeekday;
-        }
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    }
-    else {
-        if (self.notify && self.edit == YES) {
-            [self.notify setValue:self.nameField.text forKey:@"name"];
-            [self.notify setValue:nil forKey:@"date"];
-            [self.notify setValue:nil forKey:@"repeat"];
 
-        }
-        else {
-        NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
-                                                                   inManagedObjectContext:self.managedObjectContext];
-        notifyAdd.name = self.nameField.text;
-        self.edit = NO;
-        }
-    }
-     NSError *error = nil;
-     if (![self.managedObjectContext save:&error]){
-         [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
-       duration:3.5
-       position:CSToastPositionCenter];
-     }
-     else {
-       [self.view makeToast:@"Add Remind"
-       duration:3.0
-       position:CSToastPositionCenter];
+     if (self.nameField.text && self.nameField.text.length > 0) {
+         
+         if (self.switcher.on) {
+             if (self.notify && self.edit == YES) {
+                 [self.notify setValue:self.nameField.text forKey:@"name"];
+                 [self.notify setValue:self.notifyDate forKey:@"date"];
+                 [self.notify setValue:self.repeatField.text forKey:@"repeat"];
+                 
+                 // Delete and add new local notification
+                 NSString *notificationName = [self.notify valueForKey:@"name"];
+                 NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+                 for(UILocalNotification *localNotification in localNotifications) {
+                     if ([localNotification.alertBody isEqualToString:notificationName])
+                     {
+                         // Delete
+                         [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+                     }
+                 }
+             }
+             else {
+                 NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
+                                                                        inManagedObjectContext:self.managedObjectContext];
+                 notifyAdd.name = self.nameField.text;
+                 [notifyAdd setValue:self.notifyDate forKey:@"date"];
+                 notifyAdd.repeat = self.repeatField.text;
+                 self.edit = NO;
+             }
+             
+             NSError *error = nil;
+             if (![self.managedObjectContext save:&error]){
+                 [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                             duration:3.5
+                             position:CSToastPositionCenter];
+             }
+             else {
+             
+             // New for iOS 8 - Register the notifications
+             UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+             UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+             [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+             
+             UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+             localNotification.fireDate = self.notifyDate;
+             localNotification.alertBody = self.nameField.text;
+             localNotification.alertAction = @"Show me the item";
+             localNotification.soundName = UILocalNotificationDefaultSoundName;
+             localNotification.timeZone = [NSTimeZone defaultTimeZone];
+             localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+             if ([self.repeatField.text isEqual: @"Do not repeat"]) {
+                 
+                 localNotification.repeatInterval = 0;
+                 
+             }
+             else if ([self.repeatField.text isEqual: @"Every minute"]) {
+                 
+                 localNotification.repeatInterval = NSCalendarUnitMinute;
+             }
+             else if ([self.repeatField.text isEqual: @"Every hour"]) {
+                 
+                 localNotification.repeatInterval = NSCalendarUnitHour;
+             }
+             else if ([self.repeatField.text isEqual: @"Every day"]) {
+                 
+                 localNotification.repeatInterval = NSCalendarUnitDay;
+             }
+             else if ([self.repeatField.text isEqual: @"Every week"]) {
+                 
+                 localNotification.repeatInterval = NSCalendarUnitWeekday;
+             }
+             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+             }
+         }
+         else {
+             if (self.notify && self.edit == YES) {
+                 [self.notify setValue:self.nameField.text forKey:@"name"];
+                 [self.notify setValue:nil forKey:@"date"];
+                 [self.notify setValue:nil forKey:@"repeat"];
+                 
+                 NSError *error = nil;
+                 if (![self.managedObjectContext save:&error]){
+                     [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                                 duration:3.5
+                                 position:CSToastPositionCenter];
+                 }
+                 
+             }
+             else {
+                 NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
+                                                                        inManagedObjectContext:self.managedObjectContext];
+                 notifyAdd.name = self.nameField.text;
+                 
+                 NSError *error = nil;
+                 if (![self.managedObjectContext save:&error]){
+                     [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                                 duration:3.5
+                                 position:CSToastPositionCenter];
+                 }
+                 else {
+                    self.edit = NO;
+                 }
+             }
+         }
+
+         
          // Dismiss the view controller
          [self performSelector:@selector(back) withObject:nil afterDelay:3.5];
-       
+     }
+     else {
+
+         [self.view makeToast:@"Fill Remind"
+                     duration:3.0
+                     position:CSToastPositionCenter];
      }
 }
 
