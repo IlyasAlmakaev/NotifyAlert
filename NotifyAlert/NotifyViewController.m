@@ -157,6 +157,8 @@
             self.repeatField.text=nil;
             self.dateField.placeholder = @"Remind it?";
             self.repeatField.placeholder = @"Repeat setting is disabled";
+            NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
+            [usrDefaults setInteger:0 forKey:@"Index"];
         }
         
     } else if (self.edit == NO) {
@@ -201,15 +203,45 @@
 
 - (void)save
 {
-
-
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
              if (self.notify && self.edit == YES) {
                  [self.notify setValue:self.nameField.text forKey:@"name"];
                  [self.notify setValue:self.notifyDate forKey:@"date"];
-                 [self.notify setValue:self.repeatField.text forKey:@"repeat"];
+                 
+                 if ([self.repeatField.text isEqual:@""]) {
+                     [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
+                 }
+                 else {
+                     [self.notify setValue:self.repeatField.text forKey:@"repeat"];
+                 }
+                 
+                 
+                 NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
+                 
+                 
+                 if ([[self.notify valueForKey:@"repeat"] isEqual: @"Do not repeat"]) {
+                     
+                     [usrDefaults setInteger:0 forKey:@"Index"];
+                     
+                 }
+                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every minute"]) {
+                     
+                     [usrDefaults setInteger:1 forKey:@"Index"];
+                 }
+                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every hour"]) {
+                     
+                     [usrDefaults setInteger:2 forKey:@"Index"];
+                 }
+                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every day"]) {
+                     
+                     [usrDefaults setInteger:3 forKey:@"Index"];
+                 }
+                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every week"]) {
+                     
+                     [usrDefaults setInteger:4 forKey:@"Index"];
+                 }
                  
                  // Delete and add new local notification
                  NSString *notificationName = [self.notify valueForKey:@"name"];
@@ -227,7 +259,13 @@
                                                                         inManagedObjectContext:self.managedObjectContext];
                  notifyAdd.name = self.nameField.text;
                  [notifyAdd setValue:self.notifyDate forKey:@"date"];
-                 notifyAdd.repeat = self.repeatField.text;
+                 if ([self.repeatField.text isEqual:@""]) {
+                     notifyAdd.repeat = self.repeatField.placeholder;
+                 }
+                 else {
+                     notifyAdd.repeat = self.repeatField.text;
+                 }
+                 
                  self.edit = NO;
              }
              
@@ -275,6 +313,7 @@
              [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
              }
          }
+         // switch off
          else {
              if (self.notify && self.edit == YES) {
                  [self.notify setValue:self.nameField.text forKey:@"name"];
