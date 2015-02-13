@@ -148,13 +148,10 @@
     [super viewWillAppear:animated];
     
     // Do any additional setup after loading the view from its nib.
-    
-    
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52/255. green:52/255. blue:52/255. alpha:1];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
-    
     
     NSString *dateF = NSLocalizedString(@"Remind it?", nil);
     NSString *repeatF = NSLocalizedString(@"Repeat setting is disabled", nil);
