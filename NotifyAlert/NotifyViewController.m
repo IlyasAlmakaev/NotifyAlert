@@ -9,13 +9,16 @@
 #import "NotifyViewController.h"
 #import "NotifyData.h"
 #import "UIView+Toast.h"
+#import "DisableTextFieldEdit.h"
 
 
 @interface NotifyViewController ()
 
+
 @end
 
 @implementation NotifyViewController
+
 
     // Block text for repeatField and dateField
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -27,18 +30,18 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"New Remind";
+        self.navigationItem.title = NSLocalizedString(@"New Remind", nil);
 
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(back)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
         
         pickerArray = [[NSMutableArray alloc] init];
         
-        [pickerArray addObject:@"Do not repeat"];
-        [pickerArray addObject:@"Every minute"];
-        [pickerArray addObject:@"Every hour"];
-        [pickerArray addObject:@"Every day"];
-        [pickerArray addObject:@"Every week"];
+        [pickerArray addObject:NSLocalizedString(@"Do not repeat", nil)];
+        [pickerArray addObject:NSLocalizedString(@"Every minute", nil)];
+        [pickerArray addObject:NSLocalizedString(@"Every hour", nil)];
+        [pickerArray addObject:NSLocalizedString(@"Every day", nil)];
+        [pickerArray addObject:NSLocalizedString(@"Every week", nil)];
         
     }
     return self;
@@ -54,22 +57,22 @@
         pickerView.delegate = self;
         pickerView.dataSource = self;
         
-        if ([self.repeatField.text isEqual: @"Do not repeat"]) {
+        if ([self.repeatField.text isEqual: NSLocalizedString(@"Do not repeat", nil)]) {
             [pickerView selectRow:0 inComponent:0 animated:NO];
         }
-        else if ([self.repeatField.text isEqual: @"Every minute"]) {
+        else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every minute", nil)]) {
             
             [pickerView selectRow:1 inComponent:0 animated:NO];
         }
-        else if ([self.repeatField.text isEqual: @"Every hour"]) {
+        else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every hour", nil)]) {
             
             [pickerView selectRow:2 inComponent:0 animated:NO];
         }
-        else if ([self.repeatField.text isEqual: @"Every day"]) {
+        else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every day", nil)]) {
             
             [pickerView selectRow:3 inComponent:0 animated:NO];
         }
-        else if ([self.repeatField.text isEqual: @"Every week"]) {
+        else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every week", nil)]) {
             
             [pickerView selectRow:4 inComponent:0 animated:NO];
         }
@@ -84,7 +87,6 @@
         CGRect datePickerFrame = CGRectMake(0, 162, 0, 0);
         datePickerView = [[UIDatePicker alloc] initWithFrame:datePickerFrame];
         [datePickerView setDatePickerMode:UIDatePickerModeDateAndTime];
-        [datePickerView setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"ru_RU"]];
         
         self.notifyDate = [datePickerView date];
         // DateFormat ----
@@ -152,7 +154,11 @@
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
-
+    
+    
+    NSString *dateF = NSLocalizedString(@"Remind it?", nil);
+    NSString *repeatF = NSLocalizedString(@"Repeat setting is disabled", nil);
+    self.nameField.placeholder = NSLocalizedString(@"Name for your remind", nil);
    
     if (self.edit == YES) {
         self.switcher.on = true;
@@ -173,8 +179,8 @@
             self.repeatField.enabled = false;
             self.dateField.text=nil;
             self.repeatField.text=nil;
-            self.dateField.placeholder = @"Remind it?";
-            self.repeatField.placeholder = @"Repeat setting is disabled";
+            self.dateField.placeholder = dateF;
+            self.repeatField.placeholder = repeatF;
             NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
             [usrDefaults setInteger:0 forKey:@"Index"];
         }
@@ -185,8 +191,8 @@
         self.repeatField.enabled = false;
         self.dateField.text=nil;
         self.repeatField.text=nil;
-        self.dateField.placeholder = @"Remind it?";
-        self.repeatField.placeholder = @"Repeat setting is disabled";
+        self.dateField.placeholder = dateF;
+        self.repeatField.placeholder = repeatF;
         self.nameField.text=nil;
         NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
         [usrDefaults setInteger:0 forKey:@"Index"];
@@ -221,7 +227,7 @@
 
 - (void)save
 {
- //   [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    NSString *ErrorString = NSLocalizedString(@"Error", nil);
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
@@ -262,7 +268,7 @@
              
              NSError *error = nil;
              if (![self.managedObjectContext save:&error]){
-                 [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                 [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
                              duration:3.5
                              position:CSToastPositionCenter];
              }
@@ -280,24 +286,24 @@
              localNotification.soundName = UILocalNotificationDefaultSoundName;
              localNotification.timeZone = [NSTimeZone defaultTimeZone];
              localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-             if ([self.repeatField.text isEqual: @"Do not repeat"]) {
+             if ([self.repeatField.text isEqual: NSLocalizedString(@"Do not repeat", nil)]) {
                  
                  localNotification.repeatInterval = 0;
                  
              }
-             else if ([self.repeatField.text isEqual: @"Every minute"]) {
+             else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every minute", nil)]) {
                  
                  localNotification.repeatInterval = NSCalendarUnitMinute;
              }
-             else if ([self.repeatField.text isEqual: @"Every hour"]) {
+             else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every hour", nil)]) {
                  
                  localNotification.repeatInterval = NSCalendarUnitHour;
              }
-             else if ([self.repeatField.text isEqual: @"Every day"]) {
+             else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every day", nil)]) {
                  
                  localNotification.repeatInterval = NSCalendarUnitDay;
              }
-             else if ([self.repeatField.text isEqual: @"Every week"]) {
+             else if ([self.repeatField.text isEqual: NSLocalizedString(@"Every week", nil)]) {
                  
                  localNotification.repeatInterval = NSCalendarUnitWeekday;
              }
@@ -324,7 +330,7 @@
                  
                  NSError *error = nil;
                  if (![self.managedObjectContext save:&error]){
-                     [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                     [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
                                  duration:3.5
                                  position:CSToastPositionCenter];
                  }
@@ -337,7 +343,7 @@
                  
                  NSError *error = nil;
                  if (![self.managedObjectContext save:&error]){
-                     [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
+                     [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
                                  duration:3.5
                                  position:CSToastPositionCenter];
                  }
@@ -350,7 +356,7 @@
      }
      else {
 
-         [self.view makeToast:@"Fill Remind"
+         [self.view makeToast:NSLocalizedString(@"Enter name for your remind", nil)
                      duration:3.0
                      position:CSToastPositionCenter];
      }
@@ -382,8 +388,8 @@ else
     self.repeatField.enabled = false;
     self.dateField.text = nil;
     self.repeatField.text = nil;
-    self.dateField.placeholder = @"Remind it?";
-    self.repeatField.placeholder = @"Repeat setting is disabled";
+    self.dateField.placeholder = NSLocalizedString(@"Remind it?", nil);
+    self.repeatField.placeholder = NSLocalizedString(@"Repeat setting is disabled", nil);
 }
 }
 @end

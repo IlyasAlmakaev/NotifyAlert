@@ -27,7 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        self.navigationItem.title = @"Reminders";
+        self.navigationItem.title = NSLocalizedString(@"Reminders", nil);
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd                                                                                                                       target:self                                                                                                                       action:@selector(AddNotify)];
     }
     return self;
@@ -135,7 +135,7 @@
         NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
         [cell.dateRemind setText:string];
         
-        if ([[notification valueForKey:@"repeat"]  isEqual: @"Do not repeat"] || [notification valueForKey:@"repeat"] == nil) {
+        if ([[notification valueForKey:@"repeat"]  isEqual: NSLocalizedString(@"Do not repeat", nil)] || [notification valueForKey:@"repeat"] == nil) {
             cell.imageRepeat.hidden = true;
         }
         else
@@ -156,19 +156,23 @@
         NSInteger minutes = [currentComps minute];
         
         NSString *dayString;
+        NSString *iN = NSLocalizedString(@"In", nil);
+        NSString *d = NSLocalizedString(@"d.", nil);
+        NSString *h = NSLocalizedString(@"h.", nil);
+        NSString *m = NSLocalizedString(@"min.", nil);
         
         if (days > 0) {
-                dayString = [NSString stringWithFormat:@"In %ld d. %ld h. %ld min.", (long)days, (long)hours, (long)minutes];
+                dayString = [NSString stringWithFormat:@"%@ %ld %@ %ld %@ %ld %@", iN, (long)days, d, (long)hours, h, (long)minutes, m];
         }
         
         if (days <= 0)
-            dayString = [NSString stringWithFormat:@"In %ld h. %ld min.", (long)hours, (long)minutes];
+            dayString = [NSString stringWithFormat:@"%@ %ld %@ %ld %@", iN, (long)hours, h, (long)minutes, m];
         
         if (hours <= 0)
-            dayString = [NSString stringWithFormat:@"In %ld min.", (long)minutes];
+            dayString = [NSString stringWithFormat:@"%@ %ld %@", iN, (long)minutes, m];
         
         if (minutes <= 0)
-            dayString = [NSString stringWithFormat:@"No time"];
+            dayString = [NSString stringWithFormat:NSLocalizedString(@"No time", nil)];
         
         [cell.timerRemind setText:dayString];
         
@@ -205,9 +209,10 @@
         }
         // Delete the row from the data source
         [context deleteObject:[self.notifications objectAtIndex:indexPath.row]];
+        NSString *notDelete = NSLocalizedString(@"Can't Delete!", nil);
         NSError *error = nil;
         if (![context save:&error]) {
-            NSLog(@"Can't Delete! %@ %@", error, [error localizedDescription]);
+            NSLog(@"%@ %@ %@", notDelete, error, [error localizedDescription]);
             return;
         }
         [self.notifications removeObjectAtIndex:indexPath.row];

@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  NotifyAlert
+
+  Created by intent on 13.02.15.
+  Copyright (c) 2015 intent. All rights reserved.
+*/
+
+"New Remind" = "Новое напоминание";
+"Name for your remind" = "Название вашего напоминания";
+"Do not repeat" = "Не повторять";
+"Every minute" = "Каждую минуту";
+"Every hour" = "Каждый час";
+"Every day" = "Каждый день";
+"Every week" = "Каждую неделю";
+"Remind it?" = "Напоминать?";
+"Repeat setting is disabled" = "Повтор отключен";
+"Error" = "Ошибка";
+"Enter name for your remind" = "Введите имя напоминания";
+
+"Reminders" = "Напоминания";
+"In" = "Через";
+"d." = "д.";
+"h." = "ч.";
+"min." = "мин.";
+"No time" = "Время вышло";
+"Can't Delete!" = "Не удалилось!";
+
+"Remind:" = "Напоминание:";
