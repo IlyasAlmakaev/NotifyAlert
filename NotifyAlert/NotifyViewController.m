@@ -130,10 +130,11 @@
     
     // Do any additional setup after loading the view from its nib.
     
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52.0/255.0 green:52.0/255.0 blue:52.0/255.0 alpha:1.0f];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52/255. green:52/255. blue:52/255. alpha:1];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
+    self.navigationController.navigationBar.translucent = NO;
 
    
     if (self.edit == YES) {
