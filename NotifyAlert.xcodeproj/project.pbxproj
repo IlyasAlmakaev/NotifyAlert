@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1159C48E1A8A26B100903624 /* RepeatPic.png in Resources */ = {isa = PBXBuildFile; fileRef = 1159C48D1A8A26B100903624 /* RepeatPic.png */; };
 		11A2C36A1A7AFF7B00061625 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3691A7AFF7B00061625 /* main.m */; };
 		11A2C36D1A7AFF7B00061625 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C36C1A7AFF7B00061625 /* AppDelegate.m */; };
 		11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */; };
@@ -19,6 +18,9 @@
 		11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */; };
 		11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */; };
 		11D3DA221A7D313D00FE41D0 /* NotifyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D3DA211A7D313D00FE41D0 /* NotifyData.m */; };
+		11D466FC1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */; };
+		11D466FD1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */; };
+		11D466FF1A8DDF8200F6E3BF /* Cycle.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D466FE1A8DDF8200F6E3BF /* Cycle.png */; };
 		11D5706E1A88793B00472869 /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570661A88793B00472869 /* icon29.png */; };
 		11D570701A88793B00472869 /* icon58.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570681A88793B00472869 /* icon58.png */; };
 		11D570711A88793B00472869 /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570691A88793B00472869 /* icon80.png */; };
@@ -45,7 +47,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1159C48D1A8A26B100903624 /* RepeatPic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RepeatPic.png; sourceTree = "<group>"; };
 		11A2C3641A7AFF7B00061625 /* NotifyAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotifyAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11A2C3681A7AFF7B00061625 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11A2C3691A7AFF7B00061625 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -65,6 +66,10 @@
 		11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewCell.xib; sourceTree = "<group>"; };
 		11D3DA201A7D313D00FE41D0 /* NotifyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyData.h; sourceTree = "<group>"; };
 		11D3DA211A7D313D00FE41D0 /* NotifyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyData.m; sourceTree = "<group>"; };
+		11D466F91A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyNoDateTableViewCell.h; sourceTree = "<group>"; };
+		11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyNoDateTableViewCell.m; sourceTree = "<group>"; };
+		11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyNoDateTableViewCell.xib; sourceTree = "<group>"; };
+		11D466FE1A8DDF8200F6E3BF /* Cycle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cycle.png; sourceTree = "<group>"; };
 		11D570661A88793B00472869 /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon29.png; sourceTree = "<group>"; };
 		11D570681A88793B00472869 /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon58.png; sourceTree = "<group>"; };
 		11D570691A88793B00472869 /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
@@ -134,8 +139,11 @@
 				11A2C3961A7B000B00061625 /* NotifyTableViewController.m */,
 				11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */,
 				11D92A121A7BE408006080CB /* NotifyTableViewCell.h */,
-				11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */,
 				11D92A131A7BE408006080CB /* NotifyTableViewCell.m */,
+				11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */,
+				11D466F91A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.h */,
+				11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */,
+				11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */,
 				11D3DA201A7D313D00FE41D0 /* NotifyData.h */,
 				11D3DA211A7D313D00FE41D0 /* NotifyData.m */,
 				11A2C3771A7AFF7B00061625 /* Images.xcassets */,
@@ -183,7 +191,7 @@
 				11D5706A1A88793B00472869 /* icon87.png */,
 				11D5706C1A88793B00472869 /* icon120.png */,
 				11D5706D1A88793B00472869 /* icon180.png */,
-				1159C48D1A8A26B100903624 /* RepeatPic.png */,
+				11D466FE1A8DDF8200F6E3BF /* Cycle.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -301,9 +309,11 @@
 				11D570701A88793B00472869 /* icon58.png in Resources */,
 				11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */,
 				11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */,
+				11D466FF1A8DDF8200F6E3BF /* Cycle.png in Resources */,
 				11A2C3781A7AFF7B00061625 /* Images.xcassets in Resources */,
 				11D570801A888A4200472869 /* Launch Screen640x1136.png in Resources */,
 				11D570721A88793B00472869 /* icon87.png in Resources */,
+				11D466FD1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib in Resources */,
 				11D570811A888A4200472869 /* Launch Screen750x1334.png in Resources */,
 				11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */,
 				11D570741A88793B00472869 /* icon120.png in Resources */,
@@ -312,7 +322,6 @@
 				11D570821A888A4200472869 /* Launch Screen1242x2208.png in Resources */,
 				11D570711A88793B00472869 /* icon80.png in Resources */,
 				11D5706E1A88793B00472869 /* icon29.png in Resources */,
-				1159C48E1A8A26B100903624 /* RepeatPic.png in Resources */,
 				11D5707F1A888A4200472869 /* Launch Screen640x960.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +378,7 @@
 				11D3DA221A7D313D00FE41D0 /* NotifyData.m in Sources */,
 				11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */,
 				11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */,
+				11D466FC1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m in Sources */,
 				11A2C36A1A7AFF7B00061625 /* main.m in Sources */,
 				11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */,
 			);

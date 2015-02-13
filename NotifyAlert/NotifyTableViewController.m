@@ -9,6 +9,7 @@
 
 #import "NotifyTableViewController.h"
 #import "NotifyTableViewCell.h"
+#import "NotifyNoDateTableViewCell.h"
 #import "NotifyViewController.h"
 #import "NotifyData.h"
 #import "AppDelegate.h"
@@ -99,68 +100,83 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NotifyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
-    if (!cell) {
-        [tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
-        cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
-    }
-    // Configure the cell...
-    
     NSManagedObject *notification = [self.notifications objectAtIndex:indexPath.row];
     
-    [cell.nameRemind setText:[notification valueForKey:@"name"]];
-    // DateFormat
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"HH:mm / yy.MM.dd"];
-    NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
-    [cell.dateRemind setText:string];
-    
-    if ([[notification valueForKey:@"repeat"]  isEqual: @"Do not repeat"] || [notification valueForKey:@"repeat"] == nil) {
-        cell.imageRepeat.hidden = true;
-    }
-    else
-    {
-        cell.imageRepeat.hidden = false;
-    }
-    
-    NSCalendar* calendar = [NSCalendar currentCalendar];
-    NSDate* now = [NSDate date];
-    NSDate *timeRemind = [notification valueForKey:@"date"];
-    
-    NSDateComponents *currentComps = [calendar components:( NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:now toDate:timeRemind options:0];
- //   NSDate *itemDate = [calendar dateFromComponents:currentComps];
-    
- 
-    NSInteger days = [currentComps day];
-    NSInteger hours = [currentComps hour];
-    NSInteger minutes = [currentComps minute];
-    
-    NSString *dayString;
-    
-    if (days > 0) {
-        if (days == 1) {
-                    dayString = [NSString stringWithFormat:@"Tomorrow in %ld h. %ld min.", (long)hours, (long)minutes];
+    if ([notification valueForKey:@"date"] == nil) {
+        tableView.rowHeight = 44;
+        NotifyNoDateTableViewCell *cellNoDate = [tableView dequeueReusableCellWithIdentifier:@"IdCellNoDate"];
+        if (!cellNoDate) {
+            [tableView registerNib:[UINib nibWithNibName:@"NotifyNoDateTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCellNoDate"];
+            cellNoDate = [tableView dequeueReusableCellWithIdentifier:@"IdCellNoDate"];
         }
-        else if (days == 2) {
-            dayString = [NSString stringWithFormat:@"Day after tomorrow in %ld h. %ld min.", (long)hours, (long)minutes];
+        
+        [cellNoDate.nameNoDateRemind setText:[notification valueForKey:@"name"]];
+        
+        return cellNoDate;
+        
+    }
+    else {
+        tableView.rowHeight = 64;
+        NotifyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
+        if (!cell) {
+            [tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
         }
-        else  {
-            dayString = [NSString stringWithFormat:@"In %ld d. %ld h. %ld min.", (long)days, (long)hours, (long)minutes];
+        
+        
+        // Configure the cell...
+        
+        
+        
+        [cell.nameRemind setText:[notification valueForKey:@"name"]];
+        // DateFormat
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
+        [cell.dateRemind setText:string];
+        
+        if ([[notification valueForKey:@"repeat"]  isEqual: @"Do not repeat"] || [notification valueForKey:@"repeat"] == nil) {
+            cell.imageRepeat.hidden = true;
         }
+        else
+        {
+            cell.imageRepeat.hidden = false;
+        }
+        
+        NSCalendar* calendar = [NSCalendar currentCalendar];
+        NSDate* now = [NSDate date];
+        NSDate *timeRemind = [notification valueForKey:@"date"];
+        
+        NSDateComponents *currentComps = [calendar components:( NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:now toDate:timeRemind options:0];
+        //   NSDate *itemDate = [calendar dateFromComponents:currentComps];
+        
+        
+        NSInteger days = [currentComps day];
+        NSInteger hours = [currentComps hour];
+        NSInteger minutes = [currentComps minute];
+        
+        NSString *dayString;
+        
+        if (days > 0) {
+                dayString = [NSString stringWithFormat:@"In %ld d. %ld h. %ld min.", (long)days, (long)hours, (long)minutes];
+        }
+        
+        if (days <= 0)
+            dayString = [NSString stringWithFormat:@"In %ld h. %ld min.", (long)hours, (long)minutes];
+        
+        if (hours <= 0)
+            dayString = [NSString stringWithFormat:@"In %ld min.", (long)minutes];
+        
+        if (minutes <= 0)
+            dayString = [NSString stringWithFormat:@"No time"];
+        
+        [cell.timerRemind setText:dayString];
+        
+        return cell;
+        
     }
     
-    if (days <= 0)
-        dayString = [NSString stringWithFormat:@"In %ld h. %ld min.", (long)hours, (long)minutes];
     
-    if (hours <= 0)
-        dayString = [NSString stringWithFormat:@"In %ld min.", (long)minutes];
-    
-    if (minutes <= 0)
-        dayString = [NSString stringWithFormat:@"No time"];
-    
-    [cell.timerRemind setText:dayString];
-    
-    return cell;
 }
 
 

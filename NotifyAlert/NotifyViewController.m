@@ -53,7 +53,27 @@
         pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
         pickerView.delegate = self;
         pickerView.dataSource = self;
-        [pickerView selectRow:[[NSUserDefaults standardUserDefaults]integerForKey:@"Index"] inComponent:0 animated:NO];
+        
+        if ([self.repeatField.text isEqual: @"Do not repeat"]) {
+            [pickerView selectRow:0 inComponent:0 animated:NO];
+        }
+        else if ([self.repeatField.text isEqual: @"Every minute"]) {
+            
+            [pickerView selectRow:1 inComponent:0 animated:NO];
+        }
+        else if ([self.repeatField.text isEqual: @"Every hour"]) {
+            
+            [pickerView selectRow:2 inComponent:0 animated:NO];
+        }
+        else if ([self.repeatField.text isEqual: @"Every day"]) {
+            
+            [pickerView selectRow:3 inComponent:0 animated:NO];
+        }
+        else if ([self.repeatField.text isEqual: @"Every week"]) {
+            
+            [pickerView selectRow:4 inComponent:0 animated:NO];
+        }
+        
         self.repeatField.inputView = pickerView;
         
         
@@ -118,10 +138,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
-    [usrDefaults setInteger:row forKey:@"Index"];
     self.repeatField.text = [pickerArray objectAtIndex:row];
-    
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -204,6 +221,7 @@
 
 - (void)save
 {
+ //   [[UIApplication sharedApplication] cancelAllLocalNotifications];
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
@@ -217,33 +235,7 @@
                  else {
                      [self.notify setValue:self.repeatField.text forKey:@"repeat"];
                  }
-                 
-                 
-                 NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
-                 
-                 
-                 if ([[self.notify valueForKey:@"repeat"] isEqual: @"Do not repeat"]) {
-                     
-                     [usrDefaults setInteger:0 forKey:@"Index"];
-                     
-                 }
-                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every minute"]) {
-                     
-                     [usrDefaults setInteger:1 forKey:@"Index"];
-                 }
-                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every hour"]) {
-                     
-                     [usrDefaults setInteger:2 forKey:@"Index"];
-                 }
-                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every day"]) {
-                     
-                     [usrDefaults setInteger:3 forKey:@"Index"];
-                 }
-                 else if ([[self.notify valueForKey:@"repeat"] isEqual: @"Every week"]) {
-                     
-                     [usrDefaults setInteger:4 forKey:@"Index"];
-                 }
-                 
+                
                  // Delete and add new local notification
                  NSString *notificationName = [self.notify valueForKey:@"name"];
                  NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
@@ -266,8 +258,6 @@
                  else {
                      notifyAdd.repeat = self.repeatField.text;
                  }
-                 
-                 self.edit = NO;
              }
              
              NSError *error = nil;
@@ -321,6 +311,17 @@
                  [self.notify setValue:nil forKey:@"date"];
                  [self.notify setValue:nil forKey:@"repeat"];
                  
+                 // Delete local notification
+                 NSString *notificationName = [self.notify valueForKey:@"name"];
+                 NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+                 for(UILocalNotification *localNotification in localNotifications) {
+                     if ([localNotification.alertBody isEqualToString:notificationName])
+                     {
+                         // Delete
+                         [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+                     }
+                 }
+                 
                  NSError *error = nil;
                  if (![self.managedObjectContext save:&error]){
                      [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
@@ -339,9 +340,6 @@
                      [self.view makeToast:(@"Ошибка: %@ %@", error, [error localizedDescription])
                                  duration:3.5
                                  position:CSToastPositionCenter];
-                 }
-                 else {
-                    self.edit = NO;
                  }
              }
          }
