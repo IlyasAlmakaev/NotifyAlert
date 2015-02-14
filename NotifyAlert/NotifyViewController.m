@@ -228,10 +228,16 @@
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
+             
+             NSDateFormatter *format = [[NSDateFormatter alloc] init];
+             [format setDateFormat:@"HH:mm / yy.MM.dd"];
+             NSDate *freshDate = [format dateFromString:self.dateField.text];
+             
              if (self.notify && self.edit == YES) {
-                 [self.notify setValue:self.nameField.text forKey:@"name"];
-                 [self.notify setValue:self.notifyDate forKey:@"date"];
+                [self.notify setValue:self.nameField.text forKey:@"name"];
                  
+                [self.notify setValue:freshDate forKey:@"date"];
+             
                  if ([self.repeatField.text isEqual:@""]) {
                      [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
                  }
@@ -254,7 +260,7 @@
                  NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
                                                                         inManagedObjectContext:self.managedObjectContext];
                  notifyAdd.name = self.nameField.text;
-                 [notifyAdd setValue:self.notifyDate forKey:@"date"];
+                 [notifyAdd setValue:freshDate forKey:@"date"];
                  if ([self.repeatField.text isEqual:@""]) {
                      notifyAdd.repeat = self.repeatField.placeholder;
                  }
@@ -374,7 +380,6 @@
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setDateFormat:@"HH:mm / yy.MM.dd"];
         [self.dateField setText:[format stringFromDate:[NSDate date]]];
-        self.notifyDate = [NSDate date];
         self.repeatField.text = nil;
         self.repeatField.placeholder = [pickerArray objectAtIndex:0];
         
