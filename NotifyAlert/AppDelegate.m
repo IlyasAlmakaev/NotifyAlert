@@ -30,8 +30,6 @@
     notifyTableViewC.notifyViewC = notifyView;
     UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
     self.window.rootViewController = navigationC;
-  //  navigationC.navigationBar.barTintColor = [UIColor blackColor];
-  //  navigationC.navigationBar.tintColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -224,11 +224,12 @@
 
 - (void)save
 {
+  //  [[UIApplication sharedApplication] cancelAllLocalNotifications];
     NSString *ErrorString = NSLocalizedString(@"Error", nil);
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
-                         
+             
              if (self.notify && self.edit == YES) {
                 [self.notify setValue:self.nameField.text forKey:@"name"];
                  
