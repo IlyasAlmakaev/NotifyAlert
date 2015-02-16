@@ -224,13 +224,24 @@
 
 - (void)save
 {
-  //  [[UIApplication sharedApplication] cancelAllLocalNotifications];
     NSString *ErrorString = NSLocalizedString(@"Error", nil);
      if (self.nameField.text && self.nameField.text.length > 0) {
          
          if (self.switcher.on) {
              
              if (self.notify && self.edit == YES) {
+                 
+                 // Delete local notification
+                 NSString *notificationName = [self.notify valueForKey:@"name"];
+                 NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+                 for(UILocalNotification *localNotification in localNotifications) {
+                     if ([localNotification.alertBody isEqualToString:notificationName])
+                     {
+                         // Delete
+                         [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+                     }
+                 }
+                 
                 [self.notify setValue:self.nameField.text forKey:@"name"];
                  
                 [self.notify setValue:self.notifyDate forKey:@"date"];
@@ -242,16 +253,7 @@
                      [self.notify setValue:self.repeatField.text forKey:@"repeat"];
                  }
                 
-                 // Delete and add new local notification
-                 NSString *notificationName = [self.notify valueForKey:@"name"];
-                 NSArray *localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
-                 for(UILocalNotification *localNotification in localNotifications) {
-                     if ([localNotification.alertBody isEqualToString:notificationName])
-                     {
-                         // Delete
-                         [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
-                     }
-                 }
+
              }
              else {
                  NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"

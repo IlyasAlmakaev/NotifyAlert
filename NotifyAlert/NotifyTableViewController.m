@@ -218,11 +218,7 @@
             return;
         }
         [self.notifications removeObjectAtIndex:indexPath.row];
-        
-        //[[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-      
-
+    
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;

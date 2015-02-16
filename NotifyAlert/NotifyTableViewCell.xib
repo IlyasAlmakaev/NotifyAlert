@@ -35,7 +35,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Cycle.png" translatesAutoresizingMaskIntoConstraints="NO" id="gQC-Jj-knQ">
-                        <rect key="frame" x="169" y="27" width="16" height="12"/>
+                        <rect key="frame" x="170" y="27" width="16" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="TxK-sO-mib"/>
                         </constraints>
@@ -48,7 +48,7 @@
                     <constraint firstItem="qyF-yB-Ywt" firstAttribute="top" secondItem="joJ-vn-xXr" secondAttribute="topMargin" id="CzC-Mv-Na2"/>
                     <constraint firstItem="gQC-Jj-knQ" firstAttribute="top" secondItem="joJ-vn-xXr" secondAttribute="topMargin" constant="19" id="DgC-IF-krl"/>
                     <constraint firstAttribute="trailingMargin" secondItem="zy6-A3-3tm" secondAttribute="trailing" constant="95" id="F7I-Yx-Ai2"/>
-                    <constraint firstItem="B9F-n4-dYf" firstAttribute="leading" secondItem="gQC-Jj-knQ" secondAttribute="trailing" constant="4" id="Fq9-Dh-a4e"/>
+                    <constraint firstItem="B9F-n4-dYf" firstAttribute="leading" secondItem="gQC-Jj-knQ" secondAttribute="trailing" constant="3" id="Fq9-Dh-a4e"/>
                     <constraint firstItem="zy6-A3-3tm" firstAttribute="bottom" secondItem="joJ-vn-xXr" secondAttribute="bottomMargin" id="JK4-Hh-yoI"/>
                     <constraint firstItem="B9F-n4-dYf" firstAttribute="leading" secondItem="qyF-yB-Ywt" secondAttribute="trailing" constant="16" id="WfL-kn-h0Q"/>
                     <constraint firstItem="zy6-A3-3tm" firstAttribute="leading" secondItem="joJ-vn-xXr" secondAttribute="leadingMargin" id="Zys-py-0Yi"/>
