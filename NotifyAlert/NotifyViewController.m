@@ -168,6 +168,8 @@
         [format setDateFormat:@"HH:mm / dd.MM.yy"];
         [self.dateField setText:[format stringFromDate:[self.notify valueForKey:@"date"]]];
         
+        self.notifyDate = [self.notify valueForKey:@"date"];
+        
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
         
         if ([self.notify valueForKey:@"date"] == nil && [self.notify valueForKey:@"repeat"] == nil)  {
