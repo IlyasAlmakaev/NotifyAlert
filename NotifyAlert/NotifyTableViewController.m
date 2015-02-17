@@ -124,16 +124,13 @@
             [tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
             cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
         }
-        
-        
+            
         // Configure the cell...
-        
-        
         
         [cell.nameRemind setText:[notification valueForKey:@"name"]];
         // DateFormat
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        [format setDateFormat:@"HH:mm / dd.MM.yy"];
         NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
         [cell.dateRemind setText:string];
         

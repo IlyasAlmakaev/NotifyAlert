@@ -91,7 +91,7 @@
         self.notifyDate = [datePickerView date];
         // DateFormat ----
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        [format setDateFormat:@"HH:mm / dd.MM.yy"];
         
         [self.dateField setText:[format stringFromDate:self.notifyDate]];
         
@@ -109,7 +109,7 @@
     // DateFormat ----
     self.notifyDate = [datePickerView date];
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"HH:mm / yy.MM.dd"];
+    [format setDateFormat:@"HH:mm / dd.MM.yy"];
     
     [self.dateField setText:[format stringFromDate:self.notifyDate]];
     
@@ -165,7 +165,7 @@
         [self.nameField setText:[self.notify valueForKey:@"name"]];
         
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        [format setDateFormat:@"HH:mm / dd.MM.yy"];
         [self.dateField setText:[format stringFromDate:[self.notify valueForKey:@"date"]]];
         
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
@@ -377,7 +377,7 @@
         self.dateField.enabled = true;
         self.repeatField.enabled = true;
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
-        [format setDateFormat:@"HH:mm / yy.MM.dd"];
+        [format setDateFormat:@"HH:mm / dd.MM.yy"];
         [self.dateField setText:[format stringFromDate:[NSDate date]]];
         self.notifyDate = [NSDate date];
         self.repeatField.text = nil;
