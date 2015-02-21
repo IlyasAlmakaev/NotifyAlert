@@ -21,6 +21,7 @@
     // Override point for customization after application launch.
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
+        // REVIEW Зачем {, если ровно один вызов после условия?
         application.applicationIconBadgeNumber = 0;
     }
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -28,6 +29,7 @@
     NotifyViewController *notifyView = [[NotifyViewController alloc] init];
     
     notifyTableViewC.notifyViewC = notifyView;
+    // REVIEW Почему бы сразу сюда не присвоить [[NotifyViewController alloc] init]?
     UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
     self.window.rootViewController = navigationC;
     [self.window makeKeyAndVisible];
@@ -36,22 +38,31 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
+// REVIEW В одних случаях { на отдельной строке, в других на той же. Необходимо
+// REVIEW выбрать ОДИН вариант и придерживаться его. Должно быть постоянство.
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Remind:", nil)
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:nil
+            // REVIEW Почему cancelButtonTitle: не на отдельной строке?
                                               otherButtonTitles:nil];
         [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
                             withObject:nil
                             afterDelay:5.0];
+        // REVIEW Это для того, чтобы заменить Toast?
+        // REVIEW Если так, то нужно использовать Toast.
+        // REVIEW Если нет, то надо объяснить.
         [alert show];
     }
     
     // Request to reload table view data
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
+    // REVIEW Зачем?
     
     // Set icon badge number to zero
+    // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
+    // REVIEW Гораздо лучше объяснить, зачем это делается.
     application.applicationIconBadgeNumber = 0;
 }
 
