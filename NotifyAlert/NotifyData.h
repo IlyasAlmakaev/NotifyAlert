@@ -14,6 +14,8 @@
 
 @property (nonatomic) NSTimeInterval date;
 @property (nonatomic, retain) NSString * name;
+// REVIEW Зачем лишний пробел после *?
 @property (nonatomic, retain) NSString * repeat;
+// REVIEW Почему retain, а не strong? В чём разница между retain и strong?
 
 @end

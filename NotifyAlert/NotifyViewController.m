@@ -36,7 +36,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save)];
         
         pickerArray = [[NSMutableArray alloc] init];
-        
+        // REVIEW Переименовать в repeatOptions. Какой смысл называть массивом массив?
         [pickerArray addObject:NSLocalizedString(@"Do not repeat", nil)];
         [pickerArray addObject:NSLocalizedString(@"Every minute", nil)];
         [pickerArray addObject:NSLocalizedString(@"Every hour", nil)];
@@ -53,9 +53,14 @@
     {
         // Show PickerView
         CGRect pickerFrame = CGRectMake(0, 162, 0, 0);
+        // REVIEW Почему 162? Почему не 163?
         pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
+        // REVIEW Создать picker view лишь один раз.
+        // REVIEW Зачем каждый раз создавать новый?
         pickerView.delegate = self;
         pickerView.dataSource = self;
+        // REVIEW И каждый раз его настраивать. Зачем когда можно это сделать
+        // REVIEW ровно один раз?
         
         if ([self.repeatField.text isEqual: NSLocalizedString(@"Do not repeat", nil)]) {
             [pickerView selectRow:0 inComponent:0 animated:NO];
@@ -76,6 +81,9 @@
             
             [pickerView selectRow:4 inComponent:0 animated:NO];
         }
+        // REVIEW Никогда нельзя сравнивать с конечным локализованным значением
+        // REVIEW Поменять на сравнение с внутренней переменной, никак
+        // REVIEW не связанной со строкой отображения.
         
         self.repeatField.inputView = pickerView;
         
@@ -87,6 +95,7 @@
         CGRect datePickerFrame = CGRectMake(0, 162, 0, 0);
         datePickerView = [[UIDatePicker alloc] initWithFrame:datePickerFrame];
         [datePickerView setDatePickerMode:UIDatePickerModeDateAndTime];
+        // REVIEW Тот же вопрос про 162 и про создание каждый раз.
         
         self.notifyDate = [datePickerView date];
         // DateFormat ----
@@ -120,6 +129,9 @@
     [self.repeatField resignFirstResponder];
     [self.nameField resignFirstResponder];
     [self.dateField resignFirstResponder];
+    // REVIEW Почему не [self.view endEditing]?
+    // REVIEW В чём разница между endEditing и resignFirstResponder?
+    // REVIEW Почему рекомендуется использовать endEditing?
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -131,6 +143,8 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return [pickerArray count];
+    // REVIEW Почему в NotifyTVC используется self.notifications.count (свойство)
+    // REVIEW а тут [pickerArray count] (метод)?
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
@@ -152,12 +166,15 @@
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
+    // REVIEW Делать ровно один раз. Какой смысл при каждом показе?
     
     NSString *dateF = NSLocalizedString(@"Remind it?", nil);
     NSString *repeatF = NSLocalizedString(@"Repeat setting is disabled", nil);
     self.nameField.placeholder = NSLocalizedString(@"Name for your remind", nil);
+    // REVIEW Тоже надо делать один раз.
    
     if (self.edit == YES) {
+        // REVIEW Почему не if (self.edit)?
         self.switcher.on = true;
         self.dateField.enabled = true;
         self.repeatField.enabled = true;
@@ -173,6 +190,7 @@
         [self.repeatField setText:[self.notify valueForKey:@"repeat"]];
         
         if ([self.notify valueForKey:@"date"] == nil && [self.notify valueForKey:@"repeat"] == nil)  {
+            // REVIEW Скобочка уехала.
             self.switcher.on = false;
             self.dateField.enabled = false;
             self.repeatField.enabled = false;
@@ -185,6 +203,7 @@
         }
         
     } else if (self.edit == NO) {
+        // REVIEW Почему не просто else?
         self.switcher.on = false;
         self.dateField.enabled = false;
         self.repeatField.enabled = false;
@@ -196,11 +215,19 @@
         NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
         [usrDefaults setInteger:0 forKey:@"Index"];
     }
+    // REVIEW Сократить портянку в 2 раза. Например, если self.switcher.on
+    // REVIEW зависит от self.edit и self.notify, то конечное значение BOOL
+    // REVIEW достоточно получить ровно 1 раз, после чего его присвоить по
+    // REVIEW одному разу каждому виджету (switcher, dateField и т.д.).
     
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     self.managedObjectContext = appDelegate.managedObjectContext;
+    // REVIEW Гораздо лучше сразу в AppDelegate присвоить
+    // REVIEW NSManagedObjectContext этому классу. Какой смысл
+    // REVIEW при каждом действии с базой выполнять одно и то же?
     
     self.repeatField.delegate = self;
+    // REVIEW Делать лишь один раз.
 
 
 }
@@ -243,12 +270,16 @@
                          [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
                      }
                  }
+                 // REVIEW Опять же использовать делегата для удаления уведомления.
+                 // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
                  
                 [self.notify setValue:self.nameField.text forKey:@"name"];
                  
                 [self.notify setValue:self.notifyDate forKey:@"date"];
              
                  if ([self.repeatField.text isEqual:@""]) {
+                     // REVIEW Опять же использовать внутреннюю переменную,
+                     // REVIEW никак не связанную с отображением.
                      [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
                  }
                  else {
@@ -263,6 +294,7 @@
                  notifyAdd.name = self.nameField.text;
                  [notifyAdd setValue:self.notifyDate forKey:@"date"];
                  if ([self.repeatField.text isEqual:@""]) {
+                     // REVIEW Опять же...
                      notifyAdd.repeat = self.repeatField.placeholder;
                  }
                  else {
@@ -275,6 +307,9 @@
                  [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
                              duration:3.5
                              position:CSToastPositionCenter];
+                 // REVIEW Создать файл Common, в котором реализовать showToast(текст)
+                 // REVIEW Нет никакого прока от указания одних и тех же значений
+                 // REVIEW для duration и position при каждом вызове.
              }
              else {
              
@@ -282,6 +317,8 @@
              UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
              UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
              [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+             // REVIEW Опять же реализовать это с помощью делегата в AppDelegate.
+             // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
              
              UILocalNotification* localNotification = [[UILocalNotification alloc] init];
              localNotification.fireDate = self.notifyDate;
@@ -291,6 +328,8 @@
              localNotification.timeZone = [NSTimeZone defaultTimeZone];
              localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
              if ([self.repeatField.text isEqual: NSLocalizedString(@"Do not repeat", nil)]) {
+                 // REVIEW Опять же использовать переменную,
+                 // REVIEW никак не связанную с отображением.
                  
                  localNotification.repeatInterval = 0;
                  
@@ -311,8 +350,11 @@
                  
                  localNotification.repeatInterval = NSCalendarUnitWeekday;
              }
+             // REVIEW Опять же...
              [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+             // REVIEW Опять же...
              }
+             // REVIE Ещё и неверный отступ.
          }
          // switch off
          else {
@@ -331,6 +373,7 @@
                          [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
                      }
                  }
+                 // REVIEW Опять же.
                  
                  NSError *error = nil;
                  if (![self.managedObjectContext save:&error]){
@@ -357,12 +400,14 @@
          
          // Dismiss the view controller
          [self performSelector:@selector(back) withObject:nil afterDelay:3.5];
+         // REVIEW Почему не сразу?
      }
      else {
 
          [self.view makeToast:NSLocalizedString(@"Enter name for your remind", nil)
                      duration:3.0
                      position:CSToastPositionCenter];
+         // REVIEW Добавить shake поля ввода.
      }
 }
 
@@ -371,6 +416,7 @@
     [self.nameField resignFirstResponder];
     [self.dateField resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
+    // REVIEW Зачем?
 }
 
 
@@ -395,5 +441,7 @@ else
     self.dateField.placeholder = NSLocalizedString(@"Remind it?", nil);
     self.repeatField.placeholder = NSLocalizedString(@"Repeat setting is disabled", nil);
 }
+// REVIEW Поправить отступы.
+// REVIEW Сократить портянку в 2 раза описанным выше способом.
 }
 @end

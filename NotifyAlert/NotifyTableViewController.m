@@ -11,8 +11,10 @@
 #import "NotifyTableViewCell.h"
 #import "NotifyNoDateTableViewCell.h"
 #import "NotifyViewController.h"
+// REVIEW Зачем?
 #import "NotifyData.h"
 #import "AppDelegate.h"
+// REVIEW Зачем?
 
 @interface NotifyTableViewController ()
 
@@ -29,6 +31,8 @@
     {
         self.navigationItem.title = NSLocalizedString(@"Reminders", nil);
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd                                                                                                                       target:self                                                                                                                       action:@selector(AddNotify)];
+        // REVIEW Выровнять.
+        // REVIEW Переименовать селектор с маленькой буквы (camelCase).
     }
     return self;
 }
@@ -37,9 +41,11 @@
 {
     self.notifyViewC.edit = NO;
     UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:self.notifyViewC];
+    // REVIEW Почему бы не создать NavigationController один раз, например, в AppDelegate?
     [self.navigationController presentViewController:navigationC
                        animated:YES
                      completion:nil];
+            // REVIEW Выровнять.
 }
 
 // Connect data function in Data Core
@@ -50,16 +56,23 @@
         context = [delegate managedObjectContext];
     }
     return context;
+    // REVIEW Гораздо лучше сразу в AppDelegate присвоить
+    // REVIEW NSManagedObjectContext этому классу. Какой смысл
+    // REVIEW при каждом действии с базой выполнять одно и то же?
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    // REVIEW Зачем YES?
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:52/255. green:52/255. blue:52/255. alpha:1];
+    // REVIEW Разбить на строки.
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = NO;
+    // REVIEW Выполнять это ровно один раз. Какой смысл при каждом отображении
+    // REVIEW выставлять старые значения?
     
     // Connect data base function
     NSManagedObjectContext *managedObjextContext = [self managedObjectContext];
@@ -74,6 +87,7 @@
     [super viewDidLoad];
     
     self.tableView.tableFooterView = [[UIView alloc] init];
+    // REVIEW Зачем?
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -106,22 +120,31 @@
     
     if ([notification valueForKey:@"date"] == nil) {
         tableView.rowHeight = 44;
+        // REVIEW Заменить на использование tableView:heightForRowAtIndexPath:
+        // REVIEW Получать высоту из XIB.
         NotifyNoDateTableViewCell *cellNoDate = [tableView dequeueReusableCellWithIdentifier:@"IdCellNoDate"];
         if (!cellNoDate) {
             [tableView registerNib:[UINib nibWithNibName:@"NotifyNoDateTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCellNoDate"];
+            // REVIEW Перенести во viewDidLoad.
             cellNoDate = [tableView dequeueReusableCellWithIdentifier:@"IdCellNoDate"];
         }
         
         [cellNoDate.nameNoDateRemind setText:[notification valueForKey:@"name"]];
+        // REVIEW Сделать у ячейки метод setup:(NSManagedObject *)notification
+        // REVIEW Лишь в нём всё настраивать, ибо настройка ячейки - это дело
+        // REVIEW ячейки, а не её родителя.
         
         return cellNoDate;
         
     }
     else {
         tableView.rowHeight = 64;
+        // REVIEW Заменить на использование tableView:heightForRowAtIndexPath:
+        // REVIEW Получать высоту из XIB.
         NotifyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
         if (!cell) {
             [tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
+            // REVIEW Перенести во viewDidLoad.
             cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
         }
             
@@ -132,9 +155,12 @@
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setDateFormat:@"HH:mm / dd.MM.yy"];
         NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
+        // REVIEW Использовать timeRemind, ведь это та же переменная.
         [cell.dateRemind setText:string];
         
         if ([[notification valueForKey:@"repeat"]  isEqual: NSLocalizedString(@"Do not repeat", nil)] || [notification valueForKey:@"repeat"] == nil) {
+            // REVIEW Использовать для значения 'repeat' лишь константу,
+            // REVIEW НИКАК не связанную с отображением и localized string.
             cell.imageRepeat.hidden = true;
         }
         else
@@ -174,12 +200,16 @@
             dayString = [NSString stringWithFormat:NSLocalizedString(@"No time", nil)];
         
         [cell.timerRemind setText:dayString];
+        // REVIEW Сделать у ячейки метод setup:(NSManagedObject *)notification
+        // REVIEW Лишь в нём всё настраивать, ибо настройка ячейки - это дело
+        // REVIEW ячейки, а не её родителя.
         
         return cell;
         
     }
     
     
+    // REVIEW Убрать везде лишние пустые строки.
 }
 
 
@@ -206,12 +236,20 @@
                 [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
             }
         }
+        // REVIEW Ни в коем случае нельзя НЕЯВНО использовать Application.
+        // REVIEW Необходимо создать новый протокол для удаления notification.
+        // REVIEW Этот протокол должен реализовать AppDelegate, который имеет
+        // REVIEW полный доступ к Application. NotifyTVC лишь должен принимать
+        // REVIEW делагата, реализующего протокол и вызывать метод делегата.
         // Delete the row from the data source
         [context deleteObject:[self.notifications objectAtIndex:indexPath.row]];
         NSString *notDelete = NSLocalizedString(@"Can't Delete!", nil);
         NSError *error = nil;
         if (![context save:&error]) {
             NSLog(@"%@ %@ %@", notDelete, error, [error localizedDescription]);
+            // REVIEW Выводить с помощью Toast ошибку удаления.
+            // REVIEW Также не ясно, что если удалится уведомление,
+            // REVIEW но не удалится запись в базе?
             return;
         }
         [self.notifications removeObjectAtIndex:indexPath.row];
@@ -219,7 +257,11 @@
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        // REVIEW Опять же нельзя НЕЯВНО использовать Application.
+        // REVIEW Поможет делегат.
         [self.tableView reloadData];
+        // REVIEW Точно ли это нужно? Ведь уже выше происходит deleteRowsAtIndexPaths.
+        // REVIEW Разве этого не достаточно?
     }   
 }
 
@@ -246,6 +288,7 @@
     self.notifyViewC.edit = YES;
     self.notifyViewC.notify = [self.notifications objectAtIndex:indexPath.row];
     UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:self.notifyViewC];
+    // REVIEW Почему бы не создать NavigationController один раз, например, в AppDelegate?
     [self.navigationController presentViewController:navigationC
                                             animated:YES
                                           completion:nil];

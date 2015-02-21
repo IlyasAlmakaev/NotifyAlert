@@ -14,6 +14,7 @@
     UIMenuController *menu = [UIMenuController sharedMenuController];
     if (menu) {
         [UIMenuController sharedMenuController].menuVisible = NO;
+        // REVIEW Это ведь переменная menu. Зачем второй раз её получать?
     }
     return NO;
 }

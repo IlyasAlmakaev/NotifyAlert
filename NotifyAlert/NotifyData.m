@@ -14,5 +14,6 @@
 @dynamic date;
 @dynamic name;
 @dynamic repeat;
+// REVIEW Зачем?
 
 @end

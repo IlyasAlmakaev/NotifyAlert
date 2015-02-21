@@ -10,5 +10,6 @@
 
 @interface NotifyNoDateTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameNoDateRemind;
+// REVIEW Почему не в файле реализации?
 
 @end

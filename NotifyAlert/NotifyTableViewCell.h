@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateRemind;
 @property (weak, nonatomic) IBOutlet UILabel *timerRemind;
 @property (weak, nonatomic) IBOutlet UIImageView *imageRepeat;
+// REVIEW Почему не в файле реализации?
 
 @end
