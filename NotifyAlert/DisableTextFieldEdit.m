@@ -10,20 +10,16 @@
 
 @implementation DisableTextFieldEdit
 
-- (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    UIMenuController *menu = [UIMenuController sharedMenuController];
-    if (menu) {
-        [UIMenuController sharedMenuController].menuVisible = NO;
         // REVIEW Это ведь переменная menu. Зачем второй раз её получать?
-    }
-    return NO;
-}
+        // ANSWER Убрал. Это нужно было чтобы не выводилось контекстное меню. Это решение оказалось лишним при коде написанным ниже.
 
-- (CGRect)caretRectForPosition:(UITextPosition *)position {
+- (CGRect)caretRectForPosition:(UITextPosition *)position
+{
     return CGRectZero;
 }
 
--(NSArray *)selectionRectsForRange:(UITextRange *)range {
+-(NSArray *)selectionRectsForRange:(UITextRange *)range
+{
     return nil;
 }
 

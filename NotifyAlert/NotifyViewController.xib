@@ -6,10 +6,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NotifyViewController">
             <connections>
-                <outlet property="dateField" destination="EZF-zN-qd7" id="FqV-kW-0Df"/>
-                <outlet property="nameField" destination="4i0-R2-khE" id="Zl8-YT-3eI"/>
-                <outlet property="repeatField" destination="u3A-z3-Snb" id="Pgu-Dq-NMR"/>
-                <outlet property="switcher" destination="crr-TP-bHd" id="Npe-rj-1HO"/>
+                <outlet property="dateField" destination="EZF-zN-qd7" id="4h3-sJ-1rD"/>
+                <outlet property="nameField" destination="4i0-R2-khE" id="P5A-EW-Dey"/>
+                <outlet property="repeatField" destination="u3A-z3-Snb" id="rrK-K3-7xq"/>
+                <outlet property="switcher" destination="crr-TP-bHd" id="WSh-FJ-myl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -40,7 +40,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="onTintColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
-                        <action selector="switcherPressed:" destination="-1" eventType="valueChanged" id="unW-Vg-ohP"/>
+                        <action selector="switcherPressed:" destination="-1" eventType="valueChanged" id="FRc-E6-qMm"/>
                     </connections>
                 </switch>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat setting is disabled" minimumFontSize="17" id="u3A-z3-Snb" customClass="DisableTextFieldEdit">

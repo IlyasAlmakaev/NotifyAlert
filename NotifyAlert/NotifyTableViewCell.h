@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NotifyTableViewController.h"
 
 @interface NotifyTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *nameRemind;
-@property (weak, nonatomic) IBOutlet UILabel *dateRemind;
-@property (weak, nonatomic) IBOutlet UILabel *timerRemind;
-@property (weak, nonatomic) IBOutlet UIImageView *imageRepeat;
+
 // REVIEW Почему не в файле реализации?
+// ANSWER Исправил.
+
+- (void)setup:(NSManagedObject *)notification;
 
 @end

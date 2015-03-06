@@ -16,24 +16,11 @@
 		11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3921A7AFFD600061625 /* NotifyViewController.xib */; };
 		11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2C3961A7B000B00061625 /* NotifyTableViewController.m */; };
 		11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */; };
+		11D0D51E1AA8A9200019CA50 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D0D51D1AA8A9200019CA50 /* Common.m */; };
 		11D19F571A8E690B00B27E2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11D19F591A8E690B00B27E2A /* Localizable.strings */; };
 		11D19F621A8EA64A00B27E2A /* DisableTextFieldEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D19F611A8EA64A00B27E2A /* DisableTextFieldEdit.m */; };
 		11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */; };
 		11D3DA221A7D313D00FE41D0 /* NotifyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D3DA211A7D313D00FE41D0 /* NotifyData.m */; };
-		11D466FC1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */; };
-		11D466FD1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */; };
-		11D466FF1A8DDF8200F6E3BF /* Cycle.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D466FE1A8DDF8200F6E3BF /* Cycle.png */; };
-		11D5706E1A88793B00472869 /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570661A88793B00472869 /* icon29.png */; };
-		11D570701A88793B00472869 /* icon58.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570681A88793B00472869 /* icon58.png */; };
-		11D570711A88793B00472869 /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D570691A88793B00472869 /* icon80.png */; };
-		11D570721A88793B00472869 /* icon87.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5706A1A88793B00472869 /* icon87.png */; };
-		11D570741A88793B00472869 /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5706C1A88793B00472869 /* icon120.png */; };
-		11D570751A88793B00472869 /* icon180.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5706D1A88793B00472869 /* icon180.png */; };
-		11D570771A887BA500472869 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D570761A887BA500472869 /* Launch Screen.xib */; };
-		11D5707F1A888A4200472869 /* Launch Screen640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5707A1A888A4200472869 /* Launch Screen640x960.png */; };
-		11D570801A888A4200472869 /* Launch Screen640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5707B1A888A4200472869 /* Launch Screen640x1136.png */; };
-		11D570811A888A4200472869 /* Launch Screen750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5707C1A888A4200472869 /* Launch Screen750x1334.png */; };
-		11D570821A888A4200472869 /* Launch Screen1242x2208.png in Resources */ = {isa = PBXBuildFile; fileRef = 11D5707D1A888A4200472869 /* Launch Screen1242x2208.png */; };
 		11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D92A131A7BE408006080CB /* NotifyTableViewCell.m */; };
 		B0E4F12D72FF9721BC3C8EF6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D42ADF6BD65DA85CAF1F95E /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -65,6 +52,8 @@
 		11A2C3951A7B000B00061625 /* NotifyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyTableViewController.h; sourceTree = "<group>"; };
 		11A2C3961A7B000B00061625 /* NotifyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyTableViewController.m; sourceTree = "<group>"; };
 		11A2C3971A7B000B00061625 /* NotifyTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewController.xib; sourceTree = "<group>"; };
+		11D0D51C1AA8A9200019CA50 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		11D0D51D1AA8A9200019CA50 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		11D19F5C1A8E6AD200B27E2A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		11D19F5E1A8E75C800B27E2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		11D19F5F1A8E89B200B27E2A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -73,21 +62,6 @@
 		11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyTableViewCell.xib; sourceTree = "<group>"; };
 		11D3DA201A7D313D00FE41D0 /* NotifyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyData.h; sourceTree = "<group>"; };
 		11D3DA211A7D313D00FE41D0 /* NotifyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyData.m; sourceTree = "<group>"; };
-		11D466F91A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyNoDateTableViewCell.h; sourceTree = "<group>"; };
-		11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyNoDateTableViewCell.m; sourceTree = "<group>"; };
-		11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyNoDateTableViewCell.xib; sourceTree = "<group>"; };
-		11D466FE1A8DDF8200F6E3BF /* Cycle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cycle.png; sourceTree = "<group>"; };
-		11D570661A88793B00472869 /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon29.png; sourceTree = "<group>"; };
-		11D570681A88793B00472869 /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon58.png; sourceTree = "<group>"; };
-		11D570691A88793B00472869 /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
-		11D5706A1A88793B00472869 /* icon87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon87.png; sourceTree = "<group>"; };
-		11D5706C1A88793B00472869 /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
-		11D5706D1A88793B00472869 /* icon180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon180.png; sourceTree = "<group>"; };
-		11D570761A887BA500472869 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
-		11D5707A1A888A4200472869 /* Launch Screen640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen640x960.png"; sourceTree = "<group>"; };
-		11D5707B1A888A4200472869 /* Launch Screen640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen640x1136.png"; sourceTree = "<group>"; };
-		11D5707C1A888A4200472869 /* Launch Screen750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen750x1334.png"; sourceTree = "<group>"; };
-		11D5707D1A888A4200472869 /* Launch Screen1242x2208.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Launch Screen1242x2208.png"; sourceTree = "<group>"; };
 		11D92A121A7BE408006080CB /* NotifyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyTableViewCell.h; sourceTree = "<group>"; };
 		11D92A131A7BE408006080CB /* NotifyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyTableViewCell.m; sourceTree = "<group>"; };
 		1D42ADF6BD65DA85CAF1F95E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,16 +122,14 @@
 				11D92A121A7BE408006080CB /* NotifyTableViewCell.h */,
 				11D92A131A7BE408006080CB /* NotifyTableViewCell.m */,
 				11D1BFE51A7BDAF3002C66B6 /* NotifyTableViewCell.xib */,
-				11D466F91A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.h */,
-				11D466FA1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m */,
-				11D466FB1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib */,
 				11D3DA201A7D313D00FE41D0 /* NotifyData.h */,
 				11D3DA211A7D313D00FE41D0 /* NotifyData.m */,
 				11D19F601A8EA64A00B27E2A /* DisableTextFieldEdit.h */,
 				11D19F611A8EA64A00B27E2A /* DisableTextFieldEdit.m */,
+				11D0D51C1AA8A9200019CA50 /* Common.h */,
+				11D0D51D1AA8A9200019CA50 /* Common.m */,
 				11A2C3771A7AFF7B00061625 /* Images.xcassets */,
 				11A2C36E1A7AFF7B00061625 /* NotifyAlert.xcdatamodeld */,
-				11D570761A887BA500472869 /* Launch Screen.xib */,
 				11A2C3671A7AFF7B00061625 /* Supporting Files */,
 			);
 			path = NotifyAlert;
@@ -167,8 +139,6 @@
 			isa = PBXGroup;
 			children = (
 				11D19F591A8E690B00B27E2A /* Localizable.strings */,
-				11D570781A8889F900472869 /* LaunchImages */,
-				11D570651A88784C00472869 /* Icons */,
 				11A2C3681A7AFF7B00061625 /* Info.plist */,
 				11A2C3691A7AFF7B00061625 /* main.m */,
 			);
@@ -190,31 +160,6 @@
 				11A2C3851A7AFF7B00061625 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		11D570651A88784C00472869 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				11D570661A88793B00472869 /* icon29.png */,
-				11D570681A88793B00472869 /* icon58.png */,
-				11D570691A88793B00472869 /* icon80.png */,
-				11D5706A1A88793B00472869 /* icon87.png */,
-				11D5706C1A88793B00472869 /* icon120.png */,
-				11D5706D1A88793B00472869 /* icon180.png */,
-				11D466FE1A8DDF8200F6E3BF /* Cycle.png */,
-			);
-			path = Icons;
-			sourceTree = "<group>";
-		};
-		11D570781A8889F900472869 /* LaunchImages */ = {
-			isa = PBXGroup;
-			children = (
-				11D5707A1A888A4200472869 /* Launch Screen640x960.png */,
-				11D5707B1A888A4200472869 /* Launch Screen640x1136.png */,
-				11D5707C1A888A4200472869 /* Launch Screen750x1334.png */,
-				11D5707D1A888A4200472869 /* Launch Screen1242x2208.png */,
-			);
-			path = LaunchImages;
 			sourceTree = "<group>";
 		};
 		3912D79FEB580CAE17CC88EF /* Pods */ = {
@@ -317,24 +262,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11D570701A88793B00472869 /* icon58.png in Resources */,
 				11D1BFE61A7BDAF3002C66B6 /* NotifyTableViewCell.xib in Resources */,
 				11A2C3991A7B000B00061625 /* NotifyTableViewController.xib in Resources */,
-				11D466FF1A8DDF8200F6E3BF /* Cycle.png in Resources */,
 				11A2C3781A7AFF7B00061625 /* Images.xcassets in Resources */,
-				11D570801A888A4200472869 /* Launch Screen640x1136.png in Resources */,
-				11D570721A88793B00472869 /* icon87.png in Resources */,
-				11D466FD1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.xib in Resources */,
-				11D570811A888A4200472869 /* Launch Screen750x1334.png in Resources */,
 				11A2C3941A7AFFD600061625 /* NotifyViewController.xib in Resources */,
-				11D570741A88793B00472869 /* icon120.png in Resources */,
-				11D570751A88793B00472869 /* icon180.png in Resources */,
-				11D570771A887BA500472869 /* Launch Screen.xib in Resources */,
 				11D19F571A8E690B00B27E2A /* Localizable.strings in Resources */,
-				11D570821A888A4200472869 /* Launch Screen1242x2208.png in Resources */,
-				11D570711A88793B00472869 /* icon80.png in Resources */,
-				11D5706E1A88793B00472869 /* icon29.png in Resources */,
-				11D5707F1A888A4200472869 /* Launch Screen640x960.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +323,7 @@
 				11D92A141A7BE408006080CB /* NotifyTableViewCell.m in Sources */,
 				11D19F621A8EA64A00B27E2A /* DisableTextFieldEdit.m in Sources */,
 				11A2C3981A7B000B00061625 /* NotifyTableViewController.m in Sources */,
-				11D466FC1A8DDA8700F6E3BF /* NotifyNoDateTableViewCell.m in Sources */,
+				11D0D51E1AA8A9200019CA50 /* Common.m in Sources */,
 				11A2C36A1A7AFF7B00061625 /* main.m in Sources */,
 				11A2C3701A7AFF7B00061625 /* NotifyAlert.xcdatamodeld in Sources */,
 			);
@@ -424,7 +356,6 @@
 				11D19F5F1A8E89B200B27E2A /* ru */,
 			);
 			name = Localizable.strings;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -464,7 +395,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -499,7 +430,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

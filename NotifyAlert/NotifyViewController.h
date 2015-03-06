@@ -9,33 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 // REVIEW Зачем?
+// ANSWER Для связи с NSManagedObject, функцией удаления.
 
 @interface NotifyViewController : UIViewController
-<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 // REVIEW Список реализуемых протоколов перенести в файл реализации.
-{
-    NSMutableArray *pickerArray;
-    UIPickerView *pickerView;
-    
-    NSDate *notifyDate;
-    UIDatePicker *datePickerView;
-}
 // REVIEW Заменить на property в файле реализации.
-
-@property (weak, nonatomic) IBOutlet UITextField *nameField;
-@property (weak, nonatomic) IBOutlet UITextField *dateField;
-@property (weak, nonatomic) IBOutlet UITextField *repeatField;
-@property (weak, nonatomic) IBOutlet UISwitch *switcher;
-- (IBAction)switcherPressed:(id)sender;
-// REVIEW Зачем?
-
-@property (strong) NSManagedObject *notify;
-
-@property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-@property (nonatomic, retain) NSDate *notifyDate;
-
-@property (nonatomic) BOOL edit;
+    @property (strong) NSManagedObject *notify;
+    @property (nonatomic) BOOL edit;
+    @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+    @property (strong, nonatomic) AppDelegate *appD;
+    @property (strong, nonatomic) NSString *notRepeat, *everyMinute, *everyHour, *everyDay, *everyWeek;
 // REVIE Перенести все свойства, что можно, в файл реализации.
-
+// ANSWER Оставил публичные свойства.
 @end

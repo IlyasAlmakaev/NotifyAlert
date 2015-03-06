@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UIView+Toast.h"
 #import "NotifyTableViewController.h"
 
 @interface AppDelegate ()
@@ -15,82 +15,6 @@
 @end
 
 @implementation AppDelegate
-
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (locationNotification) {
-        // REVIEW Зачем {, если ровно один вызов после условия?
-        application.applicationIconBadgeNumber = 0;
-    }
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    NotifyTableViewController *notifyTableViewC = [[NotifyTableViewController alloc] init];
-    NotifyViewController *notifyView = [[NotifyViewController alloc] init];
-    
-    notifyTableViewC.notifyViewC = notifyView;
-    // REVIEW Почему бы сразу сюда не присвоить [[NotifyViewController alloc] init]?
-    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
-    self.window.rootViewController = navigationC;
-    [self.window makeKeyAndVisible];
-    return YES;
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-// REVIEW В одних случаях { на отдельной строке, в других на той же. Необходимо
-// REVIEW выбрать ОДИН вариант и придерживаться его. Должно быть постоянство.
-    UIApplicationState state = [application applicationState];
-    if (state == UIApplicationStateActive) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Remind:", nil)
-                                                        message:notification.alertBody
-                                                       delegate:self cancelButtonTitle:nil
-            // REVIEW Почему cancelButtonTitle: не на отдельной строке?
-                                              otherButtonTitles:nil];
-        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
-                            withObject:nil
-                            afterDelay:5.0];
-        // REVIEW Это для того, чтобы заменить Toast?
-        // REVIEW Если так, то нужно использовать Toast.
-        // REVIEW Если нет, то надо объяснить.
-        [alert show];
-    }
-    
-    // Request to reload table view data
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
-    // REVIEW Зачем?
-    
-    // Set icon badge number to zero
-    // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
-    // REVIEW Гораздо лучше объяснить, зачем это делается.
-    application.applicationIconBadgeNumber = 0;
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    application.applicationIconBadgeNumber = 0;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    application.applicationIconBadgeNumber = 0;
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
-}
 
 #pragma mark - Core Data stack
 
@@ -170,6 +94,181 @@
             abort();
         }
     }
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    // Saves changes in the application's managed object context before the application terminates.
+    [self saveContext];
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Override point for customization after application launch.
+    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (locationNotification)
+        // REVIEW Зачем {, если ровно один вызов после условия?
+    application.applicationIconBadgeNumber = 0;
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    NotifyTableViewController *notifyTableViewC = [[NotifyTableViewController alloc] init];
+ //   notifyTableViewC.notifyViewC = [[NotifyViewController alloc] init];
+    // REVIEW Почему бы сразу сюда не присвоить [[NotifyViewController alloc] init]?
+    // ANSWER Присвоил.
+    UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
+    navigationC.navigationBar.barTintColor = [UIColor colorWithRed:52/255.
+                                                             green:52/255.
+                                                              blue:52/255.
+                                                                alpha:1];
+    navigationC.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    navigationC.navigationBar.tintColor = [UIColor whiteColor];
+    navigationC.navigationBar.translucent = NO;
+
+    self.window.rootViewController = navigationC;
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+
+- (void)dateField:(NSDate *)dateNotify nameField:(NSString *)nameNotify repeatField:(NSString *)repeatNotify
+{
+    NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
+    
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = dateNotify;
+    localNotification.alertBody = nameNotify;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    if ([repeatNotify isEqual: notifyViewC.notRepeat])
+        // REVIEW Опять же использовать переменную,
+        // REVIEW никак не связанную с отображением.
+        // ANSWER Исправил.
+        localNotification.repeatInterval = 0;
+    
+    else if ([repeatNotify isEqual: notifyViewC.everyMinute])
+        localNotification.repeatInterval = NSCalendarUnitMinute;
+
+    else if ([repeatNotify isEqual: notifyViewC.everyHour])
+        localNotification.repeatInterval = NSCalendarUnitHour;
+    
+    else if ([repeatNotify isEqual: notifyViewC.everyDay])
+        localNotification.repeatInterval = NSCalendarUnitDay;
+
+    else if ([repeatNotify isEqual: notifyViewC.everyWeek])
+        localNotification.repeatInterval = NSCalendarUnitWeekday;
+
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
+- (NSManagedObjectContext *)managedOC
+{
+    NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    notifyViewC.managedObjectContext = appDelegate.managedObjectContext;
+    
+    return notifyViewC.managedObjectContext;
+}
+
+- (NSManagedObjectContext *)managedOCTable
+{
+    NotifyTableViewController *notifyTalbeViewC = [[NotifyTableViewController alloc] init];
+    
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    notifyTalbeViewC.managedObjectContext = appDelegate.managedObjectContext;
+    
+    return notifyTalbeViewC.managedObjectContext;
+}
+
+- (void)addObject:(NSManagedObject *)managedObject controller:(UITableViewController *)tableVC testBool:(BOOL)boolValue
+{
+    NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
+    
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:notifyViewC];
+    navigationVC.navigationBar.barTintColor = [UIColor colorWithRed:52/255.
+                                                              green:52/255.
+                                                               blue:52/255.
+                                                              alpha:1];
+    navigationVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    navigationVC.navigationBar.tintColor = [UIColor whiteColor];
+    navigationVC.navigationBar.translucent = NO;
+    
+    notifyViewC.edit = boolValue;
+    notifyViewC.notify = managedObject;
+    
+    [tableVC.navigationController presentViewController:navigationVC
+                                                        animated:YES
+                                                      completion:nil];
+}
+
+- (void)deleteNotification:(NSDate *)notificationDate name:(NSString *)notificationName
+{
+    self.localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    
+    for (UILocalNotification *localNotification in self.localNotifications)
+    {
+        NSComparisonResult result = [localNotification.fireDate compare:notificationDate];
+        if (result == NSOrderedSame && [localNotification.alertBody isEqualToString:notificationName])
+        {
+            [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+        }
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+// REVIEW В одних случаях { на отдельной строке, в других на той же. Необходимо
+// REVIEW выбрать ОДИН вариант и придерживаться его. Должно быть постоянство.
+    UIApplicationState state = [application applicationState];
+    
+    if (state == UIApplicationStateActive)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppDelegate_Notification", nil)
+                                                        message:notification.alertBody
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+            // REVIEW Почему cancelButtonTitle: не на отдельной строке?
+                                              otherButtonTitles:nil];
+        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
+                            withObject:nil
+                            afterDelay:2.0];
+        // REVIEW Это для того, чтобы заменить Toast?
+        // REVIEW Если так, то нужно использовать Toast.
+        // REVIEW Если нет, то надо объяснить.
+        [alert show];
+    }
+    // REVIEW Зачем?
+    // ANSWER Убрал. Но в начальной версии приложения это было
+    // ANSWER нужно для обновления данных в TableView,
+    // ANSWER которые создавались из localNotification, а теперь создаются из CoreData
+    
+    // Clear icon when show notification in open application
+    // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
+    // REVIEW Гораздо лучше объяснить, зачем это делается.
+    // ANSWER Объяснил
+    application.applicationIconBadgeNumber = 0;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    application.applicationIconBadgeNumber = 0;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 @end

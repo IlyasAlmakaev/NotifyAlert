@@ -15,5 +15,5 @@
 @dynamic name;
 @dynamic repeat;
 // REVIEW Зачем?
-
+// ANSWER Данные @dynamic поддерживаются во время выполнения (runtime) приложения
 @end
