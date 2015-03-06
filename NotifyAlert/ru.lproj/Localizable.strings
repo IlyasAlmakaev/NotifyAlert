@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  NotifyAlert
+
+  Created by intent on 13.02.15.
+  Copyright (c) 2015 intent. All rights reserved.
+*/
+
+"View_Title" = "Новое напоминание";
+"NameField_PlaceHolder" = "Название вашего напоминания";
+"RepeatOption_DoNotRepeat" = "Не повторять";
+"RepeatOption_EveryMinute" = "Каждую минуту";
+"RepeatOption_EveryHour" = "Каждый час";
+"RepeatOption_EveryDay" = "Каждый день";
+"RepeatOption_EveryWeek" = "Каждую неделю";
+"DateField_PlaceHolder" = "Напоминать?";
+"RepeatField_PlaceHolder" = "Повтор отключен";
+"View_Error" = "Ошибка";
+"Toast_EmptyNameField" = "Введите название напоминания";
+
+"TableView_Title" = "Напоминания";
+"TableView_Error" = "Не удалилось!";
+
+"AppDelegate_Notification" = "Напоминание:";

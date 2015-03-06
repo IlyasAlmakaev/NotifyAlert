@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  NotifyAlert
+
+  Created by intent on 13.02.15.
+  Copyright (c) 2015 intent. All rights reserved.
+*/
+
+"View_Title" = "New Remind";
+"NameField_PlaceHolder" = "Name for your remind";
+"RepeatOption_DoNotRepeat" = "Do not repeat";
+"RepeatOption_EveryMinute" = "Every minute";
+"RepeatOption_EveryHour" = "Every hour";
+"RepeatOption_EveryDay" = "Every day";
+"RepeatOption_EveryWeek" = "Every week";
+"DateField_PlaceHolder" = "Remind it?";
+"RepeatField_PlaceHolder" = "Repeat setting is disabled";
+"View_Error" = "Error";
+"Toast_EmptyNameField" = "Enter name for your remind";
+
+"TableView_Title" = "Reminders";
+"TableView_Error" = "Can't Delete!";
+
+"AppDelegate_Notification" = "Remind:";
