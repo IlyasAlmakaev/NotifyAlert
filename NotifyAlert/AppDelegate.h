@@ -23,14 +23,17 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
-- (UINavigationController *)navigationVC;
 - (void)addObject:(NSManagedObject *)managedObject
        controller:(UITableViewController *)tableVC
          testBool:(BOOL)boolValue;
-- (UIViewController *)notifyViewC;
+
+- (void)dateField:(NSDate *)dateNotify
+        nameField:(NSString *)nameNotify
+      repeatField:(NSString *)repeatNotify;
+
 - (NSManagedObjectContext *)managedOC;
 - (NSManagedObjectContext *)managedOCTable;
-- (void)dateField:(NSDate *)dateNotify nameField:(NSString *)nameNotify repeatField:(NSString *)repeatNotify;
+
 
 
 @end
