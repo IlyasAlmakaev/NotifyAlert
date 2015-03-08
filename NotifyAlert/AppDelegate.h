@@ -20,9 +20,6 @@
 @property (strong, nonatomic) NSArray *localNotifications;
 - (void)deleteNotification:(NSDate *)notificationDate name:(NSString *)notificationName;
 
-- (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
-
 - (void)addObject:(NSManagedObject *)managedObject
        controller:(UITableViewController *)tableVC
          testBool:(BOOL)boolValue;
@@ -30,6 +27,9 @@
 - (void)dateField:(NSDate *)dateNotify
         nameField:(NSString *)nameNotify
       repeatField:(NSString *)repeatNotify;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 - (NSManagedObjectContext *)managedOC;
 - (NSManagedObjectContext *)managedOCTable;

@@ -8,7 +8,6 @@
 
 #import "NotifyViewController.h"
 #import "NotifyData.h"
-//#import "UIView+Toast.h"
 #import "DisableTextFieldEdit.h"
 #import "Common.h"
 
@@ -17,6 +16,7 @@
 <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
     @property (strong, nonatomic) Common *com;
+    @property (strong, nonatomic) AppDelegate *appD;
     @property (strong, nonatomic) UIPickerView *pickerView;
     @property (strong, nonatomic) UIDatePicker *datePickerView;
     @property (strong, nonatomic) NSMutableArray *repeatOptions;
@@ -168,224 +168,6 @@
     // ANSWER Готово.
 }
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-// returns the # of rows in each component..
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return self.repeatOptions.count;
-    // REVIEW Почему в NotifyTVC используется self.notifications.count (свойство)
-    // REVIEW а тут [pickerArray count] (метод)?
-    // ANSWER Исправил метод на свойство.
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [self.repeatOptions objectAtIndex:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    self.repeatField.text = [self.repeatOptions objectAtIndex:row];
-}
-
-// Block text for repeatField and dateField
-- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    return NO;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-
-    if (textField == self.repeatField)
-    {
-        if ([self.repeatField.text isEqual: self.notRepeat] || self.repeatField.placeholder == [self.repeatOptions objectAtIndex:0])
-        {
-            self.repeatField.placeholder = nil;
-            self.repeatField.text = self.notRepeat;
-            [self.pickerView selectRow:0 inComponent:0 animated:NO];
-        }
-        else if ([self.repeatField.text isEqual: self.everyMinute])
-            [self.pickerView selectRow:1 inComponent:0 animated:NO];
-
-        else if ([self.repeatField.text isEqual: self.everyHour])
-            [self.pickerView selectRow:2 inComponent:0 animated:NO];
-
-        else if ([self.repeatField.text isEqual: self.everyDay])
-            [self.pickerView selectRow:3 inComponent:0 animated:NO];
-
-        else if ([self.repeatField.text isEqual: self.everyWeek])
-            [self.pickerView selectRow:4 inComponent:0 animated:NO];
-
-        // REVIEW Никогда нельзя сравнивать с конечным локализованным значением
-        // REVIEW Поменять на сравнение с внутренней переменной, никак
-        // REVIEW не связанной со строкой отображения.
-        // ANSWER Исправил. Прослеживается связь, но, надеюсь, так можно.
-        self.repeatField.inputView = self.pickerView;
-    }
-    else if (textField == self.dateField)
-    {
-        self.notifyDate = [self.datePickerView date];
-        [self dateFormatter:self.notifyDate];
-        
-        self.dateField.inputView = self.datePickerView;
-        
-        [self.datePickerView addTarget:self action:@selector(didChangeDate:) forControlEvents:UIControlEventValueChanged];
-    }
-}
-
--(void)didChangeDate:(id)sender
-{
-    self.notifyDate = [self.datePickerView date];
-    [self dateFormatter:self.notifyDate];
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
-    // REVIEW Почему не [self.view endEditing]?
-    // REVIEW В чём разница между endEditing и resignFirstResponder?
-    // REVIEW Почему рекомендуется использовать endEditing?
-    // ANSWER endEditing рекомендуется потому что используется для всех textFields во view,
-    // ANSWER а resignFirstResponder только для одного textField.
-}
-
-- (void)save
-{
-    NSString *ErrorString = NSLocalizedString(@"View_Error", nil);
-    // Not empty field
-     if (self.nameField.text && self.nameField.text.length > 0 && [self.nameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length!=0)
-     {
-         // Switch on
-         if (self.switcher.on)
-         {
-             // Edit notification
-             if (self.notify && self.edit == YES)
-             { 
-                 NSDate *notificationDate = [self.notify valueForKey:@"date"];
-                 NSString *notificationName = [self.notify valueForKey:@"name"];
-                 
-                [self.appD deleteNotification:notificationDate name:notificationName];
-                 // REVIEW Опять же.
-                 // ANSWER Исправил.
-                [self.notify setValue:self.nameField.text forKey:@"name"];
-                [self.notify setValue:self.notifyDate forKey:@"date"];
-             
-                 if ([self.repeatField.text isEqual:self.nilString])
-                     // REVIEW Опять же использовать внутреннюю переменную,
-                     // REVIEW никак не связанную с отображением.
-                     // ANSWER Исправил.
-                     [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
-
-                 else
-                     [self.notify setValue:self.repeatField.text forKey:@"repeat"];
-             }
-             // Add new notification
-             else
-             {
-                 NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
-                                                                        inManagedObjectContext:self.appD.managedOC];
-                 
-                 notifyAdd.name = self.nameField.text;
-                 [notifyAdd setValue:self.notifyDate forKey:@"date"];
-                 
-                 if ([self.repeatField.text isEqual:self.nilString])
-                     // REVIEW Опять же...
-                     // ANSWER Исправил
-                     notifyAdd.repeat = self.repeatField.placeholder;
-                 
-                 else
-                     notifyAdd.repeat = self.repeatField.text;
-             }
-             
-             NSError *error = nil;
-             
-             if (![self.appD.managedOC save:&error])
-                 [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
-                 // REVIEW Создать файл Common, в котором реализовать showToast(текст)
-                 // REVIEW Нет никакого прока от указания одних и тех же значений
-                 // REVIEW для duration и position при каждом вызове.
-                 // ANSWER Готово, но есть дополнительный параметр: showToast(текст) view(self)
-
-             else
-             // register Notification
-             [self.appD dateField: self.notifyDate nameField: self.nameField.text repeatField: self.repeatField.text];
-             // REVIEW Опять же реализовать это с помощью делегата в AppDelegate.
-             // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
-             // ANSWER Исправил.
-         }
-         // Switch off
-         else
-         {
-             // Edit notification
-             if (self.notify && self.edit == YES)
-             {
-                 [self.notify setValue:self.nameField.text forKey:@"name"];
-                 [self.notify setValue:nil forKey:@"date"];
-                 [self.notify setValue:nil forKey:@"repeat"];
-                 
-                 // Delete local notification
-                 NSDate *notificationDate = [self.notify valueForKey:@"date"];
-                 NSString *notificationName = [self.notify valueForKey:@"name"];
-                 
-                 [self.appD deleteNotification:notificationDate name:notificationName];
-                 // REVIEW Опять же.
-                 // ANSWER Исправил.
-                 
-                 NSError *error = nil;
-                 if (![self.appD.managedOC save:&error])
-                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
-             }
-             // Add new notification
-             else
-             {
-                 NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
-                                                                        inManagedObjectContext:self.appD.managedOC];
-                 notifyAdd.name = self.nameField.text;
-                 
-                 NSError *error = nil;
-                 if (![self.appD.managedOC save:&error])
-                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
-             }
-         }
-         
-         // Dismiss the view controller
-         [self performSelector:@selector(back) withObject:nil];
-         // REVIEW Почему не сразу?
-         // ANSWER Убрал из-за ненадобности. Задержка нужна была,
-         // ANSWER когда всплывало сообщение об успешном добавлении напоминания, которое было убрано.
-     }
-     else
-         [self.com showToast:NSLocalizedString(@"Toast_EmptyNameField", nil) view:self];
-         // REVIEW Добавить shake поля ввода.
-         // ANSWER Добавил для nameField.
-}
-
-- (void)back
-{
-    [self.view endEditing:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    // REVIEW Зачем?
-    // ANSWER Метод ухода со страницы: закрытие клавиатуры/даты/режима повторений и NotifyViewController
-}
-
-- (void)dateFormatter:(NSDate *)date
-{
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"HH:mm / dd.MM.yy"];
-    [self.dateField setText:[format stringFromDate:date]];
-}
-
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
-{
-    if (event.type == UIEventSubtypeMotionShake)
-        self.nameField.text=nil;
-}
-
 - (IBAction)switcherPressed:(id)sender
 {
     BOOL indicator;
@@ -415,4 +197,228 @@
 // REVIEW Сократить портянку в 2 раза описанным выше способом.
 // ANSWER Сократил.
 }
+
+    // Hide Keyboard/DateBoard/RepeatOptions
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+    // REVIEW Почему не [self.view endEditing]?
+    // REVIEW В чём разница между endEditing и resignFirstResponder?
+    // REVIEW Почему рекомендуется использовать endEditing?
+    // ANSWER endEditing рекомендуется потому что используется для всех textFields во view,
+    // ANSWER а resignFirstResponder только для одного textField.
+}
+
+    // Block text for repeatField and dateField
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return NO;
+}
+
+    // Shake textField-method
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (event.type == UIEventSubtypeMotionShake)
+        self.nameField.text=nil;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    if (textField == self.repeatField)
+    {
+        if ([self.repeatField.text isEqual: self.notRepeat] || self.repeatField.placeholder == [self.repeatOptions objectAtIndex:0])
+        {
+            self.repeatField.placeholder = nil;
+            self.repeatField.text = self.notRepeat;
+            [self.pickerView selectRow:0 inComponent:0 animated:NO];
+        }
+        else if ([self.repeatField.text isEqual: self.everyMinute])
+            [self.pickerView selectRow:1 inComponent:0 animated:NO];
+        
+        else if ([self.repeatField.text isEqual: self.everyHour])
+            [self.pickerView selectRow:2 inComponent:0 animated:NO];
+        
+        else if ([self.repeatField.text isEqual: self.everyDay])
+            [self.pickerView selectRow:3 inComponent:0 animated:NO];
+        
+        else if ([self.repeatField.text isEqual: self.everyWeek])
+            [self.pickerView selectRow:4 inComponent:0 animated:NO];
+        
+        // REVIEW Никогда нельзя сравнивать с конечным локализованным значением
+        // REVIEW Поменять на сравнение с внутренней переменной, никак
+        // REVIEW не связанной со строкой отображения.
+        // ANSWER Исправил. Прослеживается связь, но, надеюсь, так можно.
+        self.repeatField.inputView = self.pickerView;
+    }
+    else if (textField == self.dateField)
+    {
+        self.notifyDate = [self.datePickerView date];
+        [self dateFormatter:self.notifyDate];
+        
+        self.dateField.inputView = self.datePickerView;
+        
+        [self.datePickerView addTarget:self action:@selector(didChangeDate:) forControlEvents:UIControlEventValueChanged];
+    }
+}
+
+- (void)didChangeDate:(id)sender
+{
+    self.notifyDate = [self.datePickerView date];
+    [self dateFormatter:self.notifyDate];
+}
+
+    // DateFormat to string
+- (void)dateFormatter:(NSDate *)date
+{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"HH:mm / dd.MM.yy"];
+    [self.dateField setText:[format stringFromDate:date]];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.repeatOptions.count;
+    // REVIEW Почему в NotifyTVC используется self.notifications.count (свойство)
+    // REVIEW а тут [pickerArray count] (метод)?
+    // ANSWER Исправил метод на свойство.
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [self.repeatOptions objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    self.repeatField.text = [self.repeatOptions objectAtIndex:row];
+}
+
+// Add/Edit notification
+- (void)save
+{
+    NSString *ErrorString = NSLocalizedString(@"View_Error", nil);
+    // Not empty field
+    if (self.nameField.text && self.nameField.text.length > 0 && [self.nameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length!=0)
+    {
+        // Switch on
+        if (self.switcher.on)
+        {
+            // Edit notification
+            if (self.notify && self.edit == YES)
+            {
+                NSDate *notificationDate = [self.notify valueForKey:@"date"];
+                NSString *notificationName = [self.notify valueForKey:@"name"];
+                
+                [self.appD deleteNotification:notificationDate name:notificationName];
+                // REVIEW Опять же.
+                // ANSWER Исправил.
+                [self.notify setValue:self.nameField.text forKey:@"name"];
+                [self.notify setValue:self.notifyDate forKey:@"date"];
+                
+                if ([self.repeatField.text isEqual:self.nilString])
+                    // REVIEW Опять же использовать внутреннюю переменную,
+                    // REVIEW никак не связанную с отображением.
+                    // ANSWER Исправил.
+                    [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
+                
+                else
+                    [self.notify setValue:self.repeatField.text forKey:@"repeat"];
+            }
+            // Add new notification
+            else
+            {
+                NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
+                                                                       inManagedObjectContext:self.appD.managedOC];
+                
+                notifyAdd.name = self.nameField.text;
+                [notifyAdd setValue:self.notifyDate forKey:@"date"];
+                
+                if ([self.repeatField.text isEqual:self.nilString])
+                    // REVIEW Опять же...
+                    // ANSWER Исправил
+                    notifyAdd.repeat = self.repeatField.placeholder;
+                
+                else
+                    notifyAdd.repeat = self.repeatField.text;
+            }
+            
+            NSError *error = nil;
+            
+            if (![self.appD.managedOC save:&error])
+                [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+            // REVIEW Создать файл Common, в котором реализовать showToast(текст)
+            // REVIEW Нет никакого прока от указания одних и тех же значений
+            // REVIEW для duration и position при каждом вызове.
+            // ANSWER Готово, но есть дополнительный параметр: showToast(текст) view(self)
+            
+            else
+                // register Notification
+                [self.appD dateField: self.notifyDate nameField: self.nameField.text repeatField: self.repeatField.text];
+            // REVIEW Опять же реализовать это с помощью делегата в AppDelegate.
+            // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
+            // ANSWER Исправил.
+        }
+        // Switch off
+        else
+        {
+            // Edit notification
+            if (self.notify && self.edit == YES)
+            {
+                [self.notify setValue:self.nameField.text forKey:@"name"];
+                [self.notify setValue:nil forKey:@"date"];
+                [self.notify setValue:nil forKey:@"repeat"];
+                
+                // Delete local notification
+                NSDate *notificationDate = [self.notify valueForKey:@"date"];
+                NSString *notificationName = [self.notify valueForKey:@"name"];
+                
+                [self.appD deleteNotification:notificationDate name:notificationName];
+                // REVIEW Опять же.
+                // ANSWER Исправил.
+                
+                NSError *error = nil;
+                if (![self.appD.managedOC save:&error])
+                    [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+            }
+            // Add new notification
+            else
+            {
+                NotifyData *notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
+                                                                      inManagedObjectContext:self.appD.managedOC];
+                notifyAdd.name = self.nameField.text;
+                
+                NSError *error = nil;
+                if (![self.appD.managedOC save:&error])
+                    [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+            }
+        }
+        
+        // Dismiss the view controller
+        [self performSelector:@selector(back) withObject:nil];
+        // REVIEW Почему не сразу?
+        // ANSWER Убрал из-за ненадобности. Задержка нужна была,
+        // ANSWER когда всплывало сообщение об успешном добавлении напоминания, которое было убрано.
+    }
+    else
+        [self.com showToast:NSLocalizedString(@"Toast_EmptyNameField", nil) view:self];
+    // REVIEW Добавить shake поля ввода.
+    // ANSWER Добавил для nameField.
+}
+
+// Exit
+- (void)back
+{
+    [self.view endEditing:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    // REVIEW Зачем?
+    // ANSWER Метод ухода со страницы: закрытие клавиатуры/даты/режима повторений и NotifyViewController
+}
+
 @end

@@ -11,9 +11,7 @@
 
 @interface NotifyTableViewController : UITableViewController
 
-    @property (strong, nonatomic) NotifyTableViewController *notifyViewTC;
-    @property (strong, nonatomic) NotifyViewController *notifyViewC;
-    @property (strong, nonatomic) AppDelegate *appD;
-    @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) AppDelegate *appD;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end

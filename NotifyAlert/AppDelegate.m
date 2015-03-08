@@ -128,13 +128,73 @@
     return YES;
 }
 
+- (void)addObject:(NSManagedObject *)managedObject controller:(UITableViewController *)tableVC testBool:(BOOL)boolValue
+{
+    NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
+    
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:notifyViewC];
+    navigationVC.navigationBar.barTintColor = [UIColor colorWithRed:52/255.
+                                                              green:52/255.
+                                                               blue:52/255.
+                                                              alpha:1];
+    navigationVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    navigationVC.navigationBar.tintColor = [UIColor whiteColor];
+    navigationVC.navigationBar.translucent = NO;
+    
+    notifyViewC.edit = boolValue;
+    notifyViewC.notify = managedObject;
+    
+    [tableVC.navigationController presentViewController:navigationVC
+                                               animated:YES
+                                             completion:nil];
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    // REVIEW В одних случаях { на отдельной строке, в других на той же. Необходимо
+    // REVIEW выбрать ОДИН вариант и придерживаться его. Должно быть постоянство.
+    UIApplicationState state = [application applicationState];
+    
+    if (state == UIApplicationStateActive)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppDelegate_Notification", nil)
+                                                        message:notification.alertBody
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                              // REVIEW Почему cancelButtonTitle: не на отдельной строке?
+                                              otherButtonTitles:nil];
+        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
+                    withObject:nil
+                    afterDelay:2.0];
+        // REVIEW Это для того, чтобы заменить Toast?
+        // REVIEW Если так, то нужно использовать Toast.
+        // REVIEW Если нет, то надо объяснить.
+        // ANSWER Не получается заменить на Toast, т.к. в AppDelegate используются системные уведомления.
+        [alert show];
+    }
+    // REVIEW Зачем?
+    // ANSWER Убрал. Но в начальной версии приложения это было
+    // ANSWER нужно для обновления данных в TableView,
+    // ANSWER которые создавались из localNotification, а теперь создаются из CoreData
+    
+    // Clear icon when show notification in open application
+    // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
+    // REVIEW Гораздо лучше объяснить, зачем это делается.
+    // ANSWER Объяснил
+    application.applicationIconBadgeNumber = 0;
+}
+
+    // Add local notification
 - (void)dateField:(NSDate *)dateNotify nameField:(NSString *)nameNotify repeatField:(NSString *)repeatNotify
 {
     NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
     
-    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0f)
+    {
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    }
     
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = dateNotify;
@@ -163,6 +223,21 @@
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
+    // Delete local notification
+- (void)deleteNotification:(NSDate *)notificationDate name:(NSString *)notificationName
+{
+    self.localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
+    
+    for (UILocalNotification *localNotification in self.localNotifications)
+    {
+        NSComparisonResult result = [localNotification.fireDate compare:notificationDate];
+        if (result == NSOrderedSame && [localNotification.alertBody isEqualToString:notificationName])
+        {
+            [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
+        }
+    }
+}
+
 - (NSManagedObjectContext *)managedOC
 {
     NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
@@ -181,76 +256,6 @@
     notifyTalbeViewC.managedObjectContext = appDelegate.managedObjectContext;
     
     return notifyTalbeViewC.managedObjectContext;
-}
-
-- (void)addObject:(NSManagedObject *)managedObject controller:(UITableViewController *)tableVC testBool:(BOOL)boolValue
-{
-    NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
-    
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:notifyViewC];
-    navigationVC.navigationBar.barTintColor = [UIColor colorWithRed:52/255.
-                                                              green:52/255.
-                                                               blue:52/255.
-                                                              alpha:1];
-    navigationVC.navigationBar.barStyle = UIStatusBarStyleLightContent;
-    navigationVC.navigationBar.tintColor = [UIColor whiteColor];
-    navigationVC.navigationBar.translucent = NO;
-    
-    notifyViewC.edit = boolValue;
-    notifyViewC.notify = managedObject;
-    
-    [tableVC.navigationController presentViewController:navigationVC
-                                                        animated:YES
-                                                      completion:nil];
-}
-
-- (void)deleteNotification:(NSDate *)notificationDate name:(NSString *)notificationName
-{
-    self.localNotifications = [[UIApplication sharedApplication]  scheduledLocalNotifications];
-    
-    for (UILocalNotification *localNotification in self.localNotifications)
-    {
-        NSComparisonResult result = [localNotification.fireDate compare:notificationDate];
-        if (result == NSOrderedSame && [localNotification.alertBody isEqualToString:notificationName])
-        {
-            [[UIApplication sharedApplication] cancelLocalNotification:localNotification];
-        }
-    }
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-// REVIEW В одних случаях { на отдельной строке, в других на той же. Необходимо
-// REVIEW выбрать ОДИН вариант и придерживаться его. Должно быть постоянство.
-    UIApplicationState state = [application applicationState];
-    
-    if (state == UIApplicationStateActive)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AppDelegate_Notification", nil)
-                                                        message:notification.alertBody
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-            // REVIEW Почему cancelButtonTitle: не на отдельной строке?
-                                              otherButtonTitles:nil];
-        [alert performSelector:@selector(dismissWithClickedButtonIndex:animated:)
-                            withObject:nil
-                            afterDelay:2.0];
-        // REVIEW Это для того, чтобы заменить Toast?
-        // REVIEW Если так, то нужно использовать Toast.
-        // REVIEW Если нет, то надо объяснить.
-        // ANSWER Не получается заменить на Toast, т.к. в AppDelegate используются системные уведомления.
-        [alert show];
-    }
-    // REVIEW Зачем?
-    // ANSWER Убрал. Но в начальной версии приложения это было
-    // ANSWER нужно для обновления данных в TableView,
-    // ANSWER которые создавались из localNotification, а теперь создаются из CoreData
-    
-    // Clear icon when show notification in open application
-    // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
-    // REVIEW Гораздо лучше объяснить, зачем это делается.
-    // ANSWER Объяснил
-    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
