@@ -16,6 +16,7 @@
 @interface NotifyViewController ()
 <UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
+    @property (strong, nonatomic) Common *com;
     @property (strong, nonatomic) UIPickerView *pickerView;
     @property (strong, nonatomic) UIDatePicker *datePickerView;
     @property (strong, nonatomic) NSMutableArray *repeatOptions;
@@ -95,6 +96,7 @@
     
     self.appD = [[AppDelegate alloc] init];
     self.repeatField.delegate = self;
+    self.com = [[Common alloc] init];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -255,11 +257,13 @@
 - (void)save
 {
     NSString *ErrorString = NSLocalizedString(@"View_Error", nil);
-    
+    // Not empty field
      if (self.nameField.text && self.nameField.text.length > 0 && [self.nameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length!=0)
      {
+         // Switch on
          if (self.switcher.on)
          {
+             // Edit notification
              if (self.notify && self.edit == YES)
              { 
                  NSDate *notificationDate = [self.notify valueForKey:@"date"];
@@ -280,6 +284,7 @@
                  else
                      [self.notify setValue:self.repeatField.text forKey:@"repeat"];
              }
+             // Add new notification
              else
              {
                  NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
@@ -300,12 +305,11 @@
              NSError *error = nil;
              
              if (![self.appD.managedOC save:&error])
-                 [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
-                             duration:2.0
-                             position:CSToastPositionCenter];
+                 [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
                  // REVIEW Создать файл Common, в котором реализовать showToast(текст)
                  // REVIEW Нет никакого прока от указания одних и тех же значений
                  // REVIEW для duration и position при каждом вызове.
+                 // ANSWER Готово, но есть дополнительный параметр: showToast(текст) view(self)
 
              else
              // register Notification
@@ -314,9 +318,10 @@
              // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
              // ANSWER Исправил.
          }
-         // switch off
+         // Switch off
          else
          {
+             // Edit notification
              if (self.notify && self.edit == YES)
              {
                  [self.notify setValue:self.nameField.text forKey:@"name"];
@@ -333,10 +338,9 @@
                  
                  NSError *error = nil;
                  if (![self.appD.managedOC save:&error])
-                     [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
-                                 duration:2.0
-                                 position:CSToastPositionCenter];
+                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
              }
+             // Add new notification
              else
              {
                  NotifyData * notifyAdd = [NSEntityDescription insertNewObjectForEntityForName:@"NotifyData"
@@ -345,9 +349,7 @@
                  
                  NSError *error = nil;
                  if (![self.appD.managedOC save:&error])
-                     [self.view makeToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription])
-                                 duration:2.0
-                                 position:CSToastPositionCenter];
+                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
              }
          }
          
@@ -358,9 +360,7 @@
          // ANSWER когда всплывало сообщение об успешном добавлении напоминания, которое было убрано.
      }
      else
-        [self.view makeToast:NSLocalizedString(@"Toast_EmptyNameField", nil)
-                     duration:2.0
-                     position:CSToastPositionCenter];
+         [self.com showToast:NSLocalizedString(@"Toast_EmptyNameField", nil) view:self];
          // REVIEW Добавить shake поля ввода.
          // ANSWER Добавил для nameField.
 }

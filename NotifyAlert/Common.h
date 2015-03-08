@@ -12,9 +12,7 @@
 
 @interface Common : UIView
 
-@property (strong, nonatomic) NotifyViewController *notifyViewC;
-
-- (void)showToast:(NSString *)text;
+- (void)showToast:(NSString *)text view:(UIViewController *)view;
 
 
 @end

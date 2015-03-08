@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 intent. All rights reserved.
 //
 
-
+#import "Common.h"
 #import "NotifyTableViewController.h"
 #import "NotifyTableViewCell.h"
 // REVIEW Зачем?
@@ -20,6 +20,7 @@
 @interface NotifyTableViewController ()
 
 @property (retain, nonatomic) NSMutableArray *notifications;
+@property (strong, nonatomic) Common *com;
 
 @end
 
@@ -46,6 +47,7 @@
     [super viewDidLoad];
     
     self.appD = [[AppDelegate alloc] init];
+    self.com = [[Common alloc] init];
     self.tableView.tableFooterView = [[UIView alloc] init];
     // REVIEW Зачем?
     // ANSWER Чтобы убрать разделительные линии, где нет ячеек.
@@ -146,7 +148,7 @@
         
         if (![self.appD.managedOCTable save:&error])
         {
-            NSLog(@"%@ %@ %@", notDelete, error, [error localizedDescription]);
+            [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
             // REVIEW Выводить с помощью Toast ошибку удаления.
             // REVIEW Также не ясно, что если удалится уведомление,
             // REVIEW но не удалится запись в базе?
@@ -158,13 +160,11 @@
         
         if (![self.appD.managedOCTable save:&error])
         {
-            NSLog(@"%@ %@ %@", notDelete, error, [error localizedDescription]);
-            // REVIEW Выводить с помощью Toast ошибку удаления.
+            [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
             return;
         }
         
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
         // REVIEW Опять же нельзя НЕЯВНО использовать Application.
         // REVIEW Поможет делегат.
         // ANSWER Убрал из-за ненадобности.
@@ -183,8 +183,8 @@
 
     // REVIEW Выровнять.
     [self.appD addObject:nil
-        controller:self
-          testBool:NO];
+              controller:self
+                testBool:NO];
 }
 
 /*
