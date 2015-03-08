@@ -104,16 +104,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (locationNotification)
+        // Override point for customization after application launch.
+
         // REVIEW Зачем {, если ровно один вызов после условия?
-    application.applicationIconBadgeNumber = 0;
+        // ANSWER Убрал отображение badge.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     NotifyTableViewController *notifyTableViewC = [[NotifyTableViewController alloc] init];
- //   notifyTableViewC.notifyViewC = [[NotifyViewController alloc] init];
+
     // REVIEW Почему бы сразу сюда не присвоить [[NotifyViewController alloc] init]?
-    // ANSWER Присвоил.
+    // ANSWER Убрал присвоение из-за ненадобности.
     UINavigationController *navigationC = [[UINavigationController alloc] initWithRootViewController:notifyTableViewC];
     navigationC.navigationBar.barTintColor = [UIColor colorWithRed:52/255.
                                                              green:52/255.
@@ -181,7 +180,6 @@
     // REVIEW В чём смысл этого комментария? Ведь это ясно из вызова.
     // REVIEW Гораздо лучше объяснить, зачем это делается.
     // ANSWER Объяснил
-    application.applicationIconBadgeNumber = 0;
 }
 
     // Add local notification
@@ -201,7 +199,7 @@
     localNotification.alertBody = nameNotify;
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+
     if ([repeatNotify isEqual: notifyViewC.notRepeat])
         // REVIEW Опять же использовать переменную,
         // REVIEW никак не связанную с отображением.
@@ -260,7 +258,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    application.applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

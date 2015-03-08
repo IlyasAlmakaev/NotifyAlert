@@ -93,7 +93,7 @@
     [self.datePickerView setMinimumDate:[NSDate date]];
     self.nameField.placeholder = NSLocalizedString(@"NameField_PlaceHolder", nil);
     // REVIEW Тоже надо делать один раз.
-    
+    // ANSWER Исправил.
     self.appD = [[AppDelegate alloc] init];
     self.repeatField.delegate = self;
     self.com = [[Common alloc] init];
@@ -106,11 +106,13 @@
     
     // REVIEW Делать ровно один раз. Какой смысл при каждом показе?
     // ANSWER Сделал в AppDelegate.
+    // ANSWER Исправил.
     BOOL indicator;
     
     if (self.edit)
     {
         // REVIEW Почему не if (self.edit)?
+        // ANSWER Исправил.
         indicator = YES;
         
         [self.nameField setText:[self.notify valueForKey:@"name"]];
@@ -126,6 +128,7 @@
         if ([self.notify valueForKey:@"date"] == nil && [self.notify valueForKey:@"repeat"] == nil)
         {
             // REVIEW Скобочка уехала.
+            // ANSWER Исправил.
             indicator = NO;
             
             self.dateField.text = nil;
@@ -140,6 +143,7 @@
     else
     {
         // REVIEW Почему не просто else?
+        // ANSWER Исправил.
         indicator = NO;
         
         self.dateField.text = nil;
@@ -158,7 +162,7 @@
     // REVIEW зависит от self.edit и self.notify, то конечное значение BOOL
     // REVIEW достоточно получить ровно 1 раз, после чего его присвоить по
     // REVIEW одному разу каждому виджету (switcher, dateField и т.д.).
-
+    // ANSWER Исправил.
     // REVIEW Гораздо лучше сразу в AppDelegate присвоить
     // REVIEW NSManagedObjectContext этому классу. Какой смысл
     // REVIEW при каждом действии с базой выполнять одно и то же?

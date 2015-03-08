@@ -38,6 +38,7 @@
                                                                                                action:@selector(addNotify)];
         // REVIEW Выровнять.
         // REVIEW Переименовать селектор с маленькой буквы (camelCase).
+        // ANSWER Исправил.
     }
     return self;
 }
