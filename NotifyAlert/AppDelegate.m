@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "UIView+Toast.h"
 #import "NotifyTableViewController.h"
 
 @interface AppDelegate ()
