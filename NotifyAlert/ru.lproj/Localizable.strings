@@ -20,5 +20,8 @@
 
 "TableView_Title" = "Напоминания";
 "TableView_Error" = "Не удалилось!";
+"Delete_Notification" = "Удалить напоминание?";
+"Yes_Delete" = "Да";
+"Not_Delete" = "Нет";
 
 "AppDelegate_Notification" = "Напоминание:";

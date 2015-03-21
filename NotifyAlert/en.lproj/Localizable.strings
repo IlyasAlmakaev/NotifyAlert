@@ -20,5 +20,8 @@
 
 "TableView_Title" = "Reminders";
 "TableView_Error" = "Can't Delete!";
+"Delete_Notification" = "Delete notification?";
+"Yes_Delete" = "Yes";
+"Not_Delete" = "No";
 
 "AppDelegate_Notification" = "Remind:";

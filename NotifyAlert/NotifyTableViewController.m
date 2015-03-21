@@ -17,6 +17,7 @@
 
 @property (retain, nonatomic) NSMutableArray *notifications;
 @property (strong, nonatomic) Common *com;
+@property (strong, nonatomic) NSIndexPath *indexPathToBeDeleted;
 
 @end
 
@@ -106,16 +107,30 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *yes = NSLocalizedString(@"Yes_Delete", nil);
+    NSString *no = NSLocalizedString(@"Not_Delete", nil);
+    
+    self.indexPathToBeDeleted = indexPath;
+    
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"Delete_Notification", nil) delegate:self cancelButtonTitle:no otherButtonTitles:yes, nil];
+        [alert show];
+    }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1)
+    {
         // Delete local notification
-        NSDate *notificationDate = [[self.notifications objectAtIndex:indexPath.row] valueForKey:@"date"];
-        NSString *notificationName = [[self.notifications objectAtIndex:indexPath.row] valueForKey:@"name"];
+        NSDate *notificationDate = [[self.notifications objectAtIndex:self.indexPathToBeDeleted.row] valueForKey:@"date"];
+        NSString *notificationName = [[self.notifications objectAtIndex:self.indexPathToBeDeleted.row] valueForKey:@"name"];
         
         [self.appD deleteNotification:notificationDate name:notificationName];
         
         // Delete the row from the data source
-        [self.appD.managedOCTable deleteObject:[self.notifications objectAtIndex:indexPath.row]];
+        [self.appD.managedOCTable deleteObject:[self.notifications objectAtIndex:self.indexPathToBeDeleted.row]];
         
         NSString *notDelete = NSLocalizedString(@"TableView_Error", nil);
         NSError *error = nil;
@@ -125,11 +140,11 @@
         {
             
             [self.com showToast:text view:self];
-
+            
             return;
         }
         
-        [self.notifications removeObjectAtIndex:indexPath.row];
+        [self.notifications removeObjectAtIndex:self.indexPathToBeDeleted.row];
         
         // Check error
         if (![self.appD.managedOCTable save:&error])
@@ -138,9 +153,11 @@
             return;
         }
         
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.indexPathToBeDeleted] withRowAnimation:UITableViewRowAnimationFade];
     }
-}
+ 
+    }
+
 
     // Go to NotifyViewController
 - (void)addNotify
