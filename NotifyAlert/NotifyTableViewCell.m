@@ -33,7 +33,7 @@
     NSString *repeat = [notification valueForKey:@"repeat"];
     NSString *repeatOption = NSLocalizedString(@"RepeatOption_DoNotRepeat", nil);
     
-    if ([repeat isEqual: repeatOption] || repeat == nil)
+    if ([repeat isEqualToString: repeatOption] || repeat == nil)
         self.imageRepeat.hidden = true;
     else
         self.imageRepeat.hidden = false;
