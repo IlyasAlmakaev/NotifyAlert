@@ -121,6 +121,7 @@
     return YES;
 }
 
+    // Creation and enter in NotifyViewController with NavigationController
 - (void)addObject:(NSManagedObject *)managedObject controller:(UITableViewController *)tableVC testBool:(BOOL)boolValue
 {
     NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
@@ -212,6 +213,7 @@
     }
 }
 
+    // Create manageObjectContext for NotifyViewController
 - (NSManagedObjectContext *)managedOC
 {
     NotifyViewController *notifyViewC = [[NotifyViewController alloc] init];
@@ -222,6 +224,7 @@
     return notifyViewC.managedObjectContext;
 }
 
+    // Create manageObjectContext for NotifyTableViewController
 - (NSManagedObjectContext *)managedOCTable
 {
     NotifyTableViewController *notifyTalbeViewC = [[NotifyTableViewController alloc] init];

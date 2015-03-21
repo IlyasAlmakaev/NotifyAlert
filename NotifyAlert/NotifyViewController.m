@@ -58,6 +58,7 @@
         self.everyWeek = NSLocalizedString(@"RepeatOption_EveryWeek", nil);
         self.nilString = @"";
         
+        // Create Array for PickerView
         self.repeatOptions = [[NSMutableArray alloc] init];
         [self.repeatOptions addObject:self.notRepeat];
         [self.repeatOptions addObject:self.everyMinute];
@@ -81,14 +82,16 @@
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
 
+    // Show DatePickerView
     CGRect datePickerFrame = CGRectZero;
     self.datePickerView = [[UIDatePicker alloc] initWithFrame:datePickerFrame];
     [self.datePickerView setDatePickerMode:UIDatePickerModeDateAndTime];
     [self.datePickerView setMinimumDate:[NSDate date]];
+    
     self.nameField.placeholder = NSLocalizedString(@"NameField_PlaceHolder", nil);
-
-    self.appD = [[AppDelegate alloc] init];
     self.repeatField.delegate = self;
+    
+    self.appD = [[AppDelegate alloc] init];
     self.com = [[Common alloc] init];
 }
 
@@ -306,6 +309,7 @@
             
             NSError *error = nil;
             
+            // Check error
             if (![self.appD.managedOC save:&error])
                 [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
             
@@ -330,6 +334,8 @@
                 [self.appD deleteNotification:notificationDate name:notificationName];
                 
                 NSError *error = nil;
+                
+                // Check error
                 if (![self.appD.managedOC save:&error])
                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
             }
@@ -341,6 +347,8 @@
                 notifyAdd.name = self.nameField.text;
                 
                 NSError *error = nil;
+                
+                // Check error
                 if (![self.appD.managedOC save:&error])
                     [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
             }

@@ -42,7 +42,10 @@
     
     self.appD = [[AppDelegate alloc] init];
     self.com = [[Common alloc] init];
+    
+    // Hide table separator
     self.tableView.tableFooterView = [[UIView alloc] init];
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
 }
 
@@ -61,6 +64,7 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Edit notification and go to NotifyViewController
     [self.appD addObject:[self.notifications objectAtIndex:indexPath.row]
               controller:self
                 testBool:YES];
@@ -85,6 +89,8 @@
     NSManagedObject *notification = [self.notifications objectAtIndex:indexPath.row];
 
         NotifyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"IdCell"];
+    
+        // Add cell
         [cell setup:notification];
 
         return cell;
@@ -114,6 +120,7 @@
         NSString *notDelete = NSLocalizedString(@"TableView_Error", nil);
         NSError *error = nil;
         
+        // Check error
         if (![self.appD.managedOCTable save:&error])
         {
             [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
@@ -123,6 +130,7 @@
         
         [self.notifications removeObjectAtIndex:indexPath.row];
         
+        // Check error
         if (![self.appD.managedOCTable save:&error])
         {
             [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
@@ -133,6 +141,7 @@
     }
 }
 
+    // Go to NotifyViewController
 - (void)addNotify
 {
     [self.appD addObject:nil
