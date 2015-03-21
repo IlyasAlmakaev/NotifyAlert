@@ -119,11 +119,12 @@
         
         NSString *notDelete = NSLocalizedString(@"TableView_Error", nil);
         NSError *error = nil;
-        
+        NSString *text = [NSString stringWithFormat:@"%@ %@ %@", notDelete, error, [error localizedDescription]];
         // Check error
         if (![self.appD.managedOCTable save:&error])
         {
-            [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
+            
+            [self.com showToast:text view:self];
 
             return;
         }
@@ -133,7 +134,7 @@
         // Check error
         if (![self.appD.managedOCTable save:&error])
         {
-            [self.com showToast:(@"%@ %@ %@", notDelete, error, [error localizedDescription]) view:self];
+            [self.com showToast:text view:self];
             return;
         }
         

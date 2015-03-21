@@ -308,10 +308,10 @@
             }
             
             NSError *error = nil;
-            
+            NSString *text = [NSString stringWithFormat:@"%@: %@ %@", ErrorString, error, [error localizedDescription]];
             // Check error
             if (![self.appD.managedOC save:&error])
-                [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+                [self.com showToast:text view:self];
             
             else
                 // register Notification
@@ -334,10 +334,11 @@
                 [self.appD deleteNotification:notificationDate name:notificationName];
                 
                 NSError *error = nil;
+                NSString *text = [NSString stringWithFormat:@"%@: %@ %@", ErrorString, error, [error localizedDescription]];
                 
                 // Check error
                 if (![self.appD.managedOC save:&error])
-                    [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+                    [self.com showToast:text view:self];
             }
             // Add new notification
             else
@@ -347,10 +348,10 @@
                 notifyAdd.name = self.nameField.text;
                 
                 NSError *error = nil;
-                
+                NSString *text = [NSString stringWithFormat:@"%@: %@ %@", ErrorString, error, [error localizedDescription]];
                 // Check error
                 if (![self.appD.managedOC save:&error])
-                    [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
+                    [self.com showToast:text view:self];
             }
         }
         
