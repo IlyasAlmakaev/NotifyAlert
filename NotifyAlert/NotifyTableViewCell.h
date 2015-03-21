@@ -11,9 +11,6 @@
 
 @interface NotifyTableViewCell : UITableViewCell
 
-// REVIEW Почему не в файле реализации?
-// ANSWER Исправил.
-
 - (void)setup:(NSManagedObject *)notification;
 
 @end

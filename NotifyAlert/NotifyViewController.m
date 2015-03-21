@@ -29,8 +29,7 @@
     @property (weak, nonatomic) IBOutlet UISwitch *switcher;
 
     - (IBAction)switcherPressed:(id)sender;
-    // REVIEW Зачем?
-    // ANSWER Для событий в момент переключения switcher
+
 @end
 
 @implementation NotifyViewController
@@ -60,7 +59,6 @@
         self.nilString = @"";
         
         self.repeatOptions = [[NSMutableArray alloc] init];
-        // REVIEW Переименовать в repeatOptions. Какой смысл называть массивом массив?
         [self.repeatOptions addObject:self.notRepeat];
         [self.repeatOptions addObject:self.everyMinute];
         [self.repeatOptions addObject:self.everyHour];
@@ -74,26 +72,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Show PickerView
     CGRect pickerFrame = CGRectZero;
-    // REVIEW Почему 162? Почему не 163?
-    // ANSWER Ориентировался по размеру datePicker. Заменил на CGRectZero, чтобы размеры были поумолчанию
+
     self.pickerView = [[UIPickerView alloc] initWithFrame:pickerFrame];
-    // REVIEW Создать picker view лишь один раз.
-    // REVIEW Зачем каждый раз создавать новый?
+
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
-    // REVIEW И каждый раз его настраивать. Зачем когда можно это сделать
-    // REVIEW ровно один раз?
-    // Show DatePickerView
+
     CGRect datePickerFrame = CGRectZero;
     self.datePickerView = [[UIDatePicker alloc] initWithFrame:datePickerFrame];
     [self.datePickerView setDatePickerMode:UIDatePickerModeDateAndTime];
-    // REVIEW Тот же вопрос про 162 и про создание каждый раз.
     [self.datePickerView setMinimumDate:[NSDate date]];
     self.nameField.placeholder = NSLocalizedString(@"NameField_PlaceHolder", nil);
-    // REVIEW Тоже надо делать один раз.
-    // ANSWER Исправил.
+
     self.appD = [[AppDelegate alloc] init];
     self.repeatField.delegate = self;
     self.com = [[Common alloc] init];
@@ -103,16 +96,11 @@
 {
     [super viewWillAppear:animated];
     // Do any additional setup after loading the view from its nib.
-    
-    // REVIEW Делать ровно один раз. Какой смысл при каждом показе?
-    // ANSWER Сделал в AppDelegate.
-    // ANSWER Исправил.
+
     BOOL indicator;
     
     if (self.edit)
     {
-        // REVIEW Почему не if (self.edit)?
-        // ANSWER Исправил.
         indicator = YES;
         
         [self.nameField setText:[self.notify valueForKey:@"name"]];
@@ -127,8 +115,6 @@
         
         if ([self.notify valueForKey:@"date"] == nil && [self.notify valueForKey:@"repeat"] == nil)
         {
-            // REVIEW Скобочка уехала.
-            // ANSWER Исправил.
             indicator = NO;
             
             self.dateField.text = nil;
@@ -142,8 +128,6 @@
     }
     else
     {
-        // REVIEW Почему не просто else?
-        // ANSWER Исправил.
         indicator = NO;
         
         self.dateField.text = nil;
@@ -158,18 +142,6 @@
     self.switcher.on = indicator;
     self.dateField.enabled = indicator;
     self.repeatField.enabled = indicator;
-    // REVIEW Сократить портянку в 2 раза. Например, если self.switcher.on
-    // REVIEW зависит от self.edit и self.notify, то конечное значение BOOL
-    // REVIEW достоточно получить ровно 1 раз, после чего его присвоить по
-    // REVIEW одному разу каждому виджету (switcher, dateField и т.д.).
-    // ANSWER Исправил.
-    // REVIEW Гораздо лучше сразу в AppDelegate присвоить
-    // REVIEW NSManagedObjectContext этому классу. Какой смысл
-    // REVIEW при каждом действии с базой выполнять одно и то же?
-    // ANSWER Готово.
-
-    // REVIEW Делать лишь один раз.
-    // ANSWER Готово.
 }
 
 - (IBAction)switcherPressed:(id)sender
@@ -197,20 +169,12 @@
     
     self.dateField.enabled = indicator;
     self.repeatField.enabled = indicator;
-// REVIEW Поправить отступы.
-// REVIEW Сократить портянку в 2 раза описанным выше способом.
-// ANSWER Сократил.
 }
 
     // Hide Keyboard/DateBoard/RepeatOptions
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
-    // REVIEW Почему не [self.view endEditing]?
-    // REVIEW В чём разница между endEditing и resignFirstResponder?
-    // REVIEW Почему рекомендуется использовать endEditing?
-    // ANSWER endEditing рекомендуется потому что используется для всех textFields во view,
-    // ANSWER а resignFirstResponder только для одного textField.
 }
 
     // Block text for repeatField and dateField
@@ -248,11 +212,7 @@
         
         else if ([self.repeatField.text isEqual: self.everyWeek])
             [self.pickerView selectRow:4 inComponent:0 animated:NO];
-        
-        // REVIEW Никогда нельзя сравнивать с конечным локализованным значением
-        // REVIEW Поменять на сравнение с внутренней переменной, никак
-        // REVIEW не связанной со строкой отображения.
-        // ANSWER Исправил. Прослеживается связь, но, надеюсь, так можно.
+
         self.repeatField.inputView = self.pickerView;
     }
     else if (textField == self.dateField)
@@ -289,9 +249,6 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return self.repeatOptions.count;
-    // REVIEW Почему в NotifyTVC используется self.notifications.count (свойство)
-    // REVIEW а тут [pickerArray count] (метод)?
-    // ANSWER Исправил метод на свойство.
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
@@ -321,15 +278,11 @@
                 NSString *notificationName = [self.notify valueForKey:@"name"];
                 
                 [self.appD deleteNotification:notificationDate name:notificationName];
-                // REVIEW Опять же.
-                // ANSWER Исправил.
+
                 [self.notify setValue:self.nameField.text forKey:@"name"];
                 [self.notify setValue:self.notifyDate forKey:@"date"];
                 
                 if ([self.repeatField.text isEqual:self.nilString])
-                    // REVIEW Опять же использовать внутреннюю переменную,
-                    // REVIEW никак не связанную с отображением.
-                    // ANSWER Исправил.
                     [self.notify setValue:self.repeatField.placeholder forKey:@"repeat"];
                 
                 else
@@ -345,8 +298,6 @@
                 [notifyAdd setValue:self.notifyDate forKey:@"date"];
                 
                 if ([self.repeatField.text isEqual:self.nilString])
-                    // REVIEW Опять же...
-                    // ANSWER Исправил
                     notifyAdd.repeat = self.repeatField.placeholder;
                 
                 else
@@ -357,17 +308,10 @@
             
             if (![self.appD.managedOC save:&error])
                 [self.com showToast:(@"%@: %@ %@", ErrorString, error, [error localizedDescription]) view:self];
-            // REVIEW Создать файл Common, в котором реализовать showToast(текст)
-            // REVIEW Нет никакого прока от указания одних и тех же значений
-            // REVIEW для duration и position при каждом вызове.
-            // ANSWER Готово, но есть дополнительный параметр: showToast(текст) view(self)
             
             else
                 // register Notification
                 [self.appD dateField: self.notifyDate nameField: self.nameField.text repeatField: self.repeatField.text];
-            // REVIEW Опять же реализовать это с помощью делегата в AppDelegate.
-            // REVIEW Ни в коем случае не использовать Application НЕЯВНО.
-            // ANSWER Исправил.
         }
         // Switch off
         else
@@ -384,8 +328,6 @@
                 NSString *notificationName = [self.notify valueForKey:@"name"];
                 
                 [self.appD deleteNotification:notificationDate name:notificationName];
-                // REVIEW Опять же.
-                // ANSWER Исправил.
                 
                 NSError *error = nil;
                 if (![self.appD.managedOC save:&error])
@@ -406,14 +348,9 @@
         
         // Dismiss the view controller
         [self performSelector:@selector(back) withObject:nil];
-        // REVIEW Почему не сразу?
-        // ANSWER Убрал из-за ненадобности. Задержка нужна была,
-        // ANSWER когда всплывало сообщение об успешном добавлении напоминания, которое было убрано.
     }
     else
         [self.com showToast:NSLocalizedString(@"Toast_EmptyNameField", nil) view:self];
-    // REVIEW Добавить shake поля ввода.
-    // ANSWER Добавил для nameField.
 }
 
 // Exit
@@ -421,8 +358,6 @@
 {
     [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-    // REVIEW Зачем?
-    // ANSWER Метод ухода со страницы: закрытие клавиатуры/даты/режима повторений и NotifyViewController
 }
 
 @end

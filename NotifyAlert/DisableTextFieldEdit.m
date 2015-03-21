@@ -10,9 +10,6 @@
 
 @implementation DisableTextFieldEdit
 
-        // REVIEW Это ведь переменная menu. Зачем второй раз её получать?
-        // ANSWER Убрал. Это нужно было чтобы не выводилось контекстное меню. Это решение оказалось лишним при коде написанным ниже.
-
 - (CGRect)caretRectForPosition:(UITextPosition *)position
 {
     return CGRectZero;

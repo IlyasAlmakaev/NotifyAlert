@@ -28,17 +28,12 @@
     [format setDateFormat:@"HH:mm / dd.MM.yy"];
     
     NSString *string = [format stringFromDate:[notification valueForKey:@"date"]];
-    // REVIEW Использовать timeRemind, ведь это та же переменная.
-    // ANSWER Убрал timeRemind, всвязи с ненадобностью.
     [self.dateRemind setText:string];
     
     NSString *repeat = [notification valueForKey:@"repeat"];
     NSString *repeatOption = NSLocalizedString(@"RepeatOption_DoNotRepeat", nil);
     
     if ([repeat isEqual: repeatOption] || repeat == nil)
-        // REVIEW Использовать для значения 'repeat' лишь константу,
-        // REVIEW НИКАК не связанную с отображением и localized string.
-        // ANSWER Исправил. Но есть сомнения, т.к. прослеживается связь.
         self.imageRepeat.hidden = true;
     else
         self.imageRepeat.hidden = false;

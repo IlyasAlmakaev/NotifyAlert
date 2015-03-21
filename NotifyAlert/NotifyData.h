@@ -14,11 +14,6 @@
 
 @property (nonatomic) NSTimeInterval date;
 @property (nonatomic, strong) NSString *name;
-// REVIEW Зачем лишний пробел после *?
-// ANSWER Убрал.
 @property (nonatomic, strong) NSString *repeat;
-// REVIEW Почему retain, а не strong? В чём разница между retain и strong?
-// ANSWER Заменил на strong. При создании NSManagedObject автоматически по умолчанию создает retain.
-// ANSWER Strong применяется в режиме ARC (автоматический подсчет ссылок).
-// ANSWER Retain используется когда память управляется вручную.
+
 @end
