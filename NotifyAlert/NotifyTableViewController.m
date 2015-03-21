@@ -11,6 +11,7 @@
 #import "NotifyTableViewCell.h"
 #import "NotifyData.h"
 #import "AppDelegate.h"
+#import "UIView+Toast.h"
 
 
 @interface NotifyTableViewController ()
@@ -48,6 +49,20 @@
     self.tableView.tableFooterView = [[UIView alloc] init];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"NotifyTableViewCell" bundle:nil] forCellReuseIdentifier:@"IdCell"];
+    
+    // Show Welcome-message once
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"alertShownOnce"] == NO)
+    {
+        NSString *welcome = NSLocalizedString(@"TableView_Welcome", nil);
+        NSString *description = NSLocalizedString(@"TableView_Description", nil);
+        [self.view makeToast:description
+                    duration:20.0
+                    position:CSToastPositionCenter
+                       title:welcome];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"alertShownOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

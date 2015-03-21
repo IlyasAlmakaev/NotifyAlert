@@ -23,5 +23,7 @@
 "Delete_Notification" = "Delete notification?";
 "Yes_Delete" = "Yes";
 "Not_Delete" = "No";
+"TableView_Welcome" = "Welcome!";
+"TableView_Description" = "For add new notification push on +\nFor edit notification push on interest cell\nFor delete notification swipe left on interest cell and push 'Delete'";
 
 "AppDelegate_Notification" = "Remind:";
